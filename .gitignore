@@ -1,0 +1,44 @@
+# xschem/ngspice/magic
+untitled*
+*.log
+*.ps
+*.svg
+*.raw
+*.out
+*.err
+*.ext
+*.drc
+*.cif
+*.spice
+*.png
+*.pdf
+*.eps
+*.csv
+
+# Exception: Allow png/pdf/eps in doc directory
+!doc/*.png
+!doc/*.pdf
+!doc/*.eps
+
+# Simulation directory
+sim/*.txt
+!sim/requirements.txt
+# Testbench netlists in sim/ are tracked; *.raw and *.log above stay ignored
+!sim/**/*.spice
+
+# General
+*.bak*
+*.tmp
+*.swp
+*.swo
+*.save
+*~
+.venv
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
