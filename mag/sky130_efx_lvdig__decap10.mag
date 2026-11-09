@@ -1,0 +1,99 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1794265785
+<< checkpaint >>
+rect -1260 -1368 1620 1944
+<< nwell >>
+rect 0 288 360 684
+<< pwell >>
+rect 0 0 360 216
+<< poly >>
+rect 108 324 252 360
+rect 36 305 144 324
+rect 36 271 55 305
+rect 89 271 144 305
+rect 36 252 144 271
+rect 216 251 324 270
+rect 216 217 271 251
+rect 305 217 324 251
+rect 216 198 324 217
+rect 108 162 252 198
+<< polycont >>
+rect 55 271 89 305
+rect 271 217 305 251
+<< locali >>
+rect 0 629 360 648
+rect 0 595 19 629
+rect 53 595 91 629
+rect 125 595 163 629
+rect 197 595 235 629
+rect 269 595 307 629
+rect 341 595 360 629
+rect 0 576 360 595
+rect 36 360 108 576
+rect 36 305 108 324
+rect 36 271 55 305
+rect 89 271 108 305
+rect 36 0 108 271
+rect 252 251 324 576
+rect 252 217 271 251
+rect 305 217 324 251
+rect 252 198 324 217
+rect 252 0 324 162
+rect 0 -19 360 0
+rect 0 -53 19 -19
+rect 53 -53 91 -19
+rect 125 -53 163 -19
+rect 197 -53 235 -19
+rect 269 -53 307 -19
+rect 341 -53 360 -19
+rect 0 -72 360 -53
+<< viali >>
+rect 19 595 53 629
+rect 91 595 125 629
+rect 163 595 197 629
+rect 235 595 269 629
+rect 307 595 341 629
+rect 19 -53 53 -19
+rect 91 -53 125 -19
+rect 163 -53 197 -19
+rect 235 -53 269 -19
+rect 307 -53 341 -19
+<< metal1 >>
+rect 0 629 360 684
+rect 0 595 19 629
+rect 53 595 91 629
+rect 125 595 163 629
+rect 197 595 235 629
+rect 269 595 307 629
+rect 341 595 360 629
+rect 0 540 360 595
+rect 0 -19 360 36
+rect 0 -53 19 -19
+rect 53 -53 91 -19
+rect 125 -53 163 -19
+rect 197 -53 235 -19
+rect 269 -53 307 -19
+rect 341 -53 360 -19
+rect 0 -108 360 -53
+use nmos_n3f5_f1_l720_ff_sp  nmos_n3f5_f1_l720_ff_sp_0
+timestamp 1794265785
+transform 1 0 72 0 1 36
+box -72 -72 288 198
+use pmos_n5_f1_l720_hvt_ff_sp  pmos_n5_f1_l720_hvt_ff_sp_0
+timestamp 1794265785
+transform 1 0 72 0 1 360
+box -72 -72 288 252
+<< labels >>
+flabel metal1 0 -72 72 0 0 FreeSans 288 0 0 0 VGND
+port 1 nsew ground bidirectional
+flabel metal1 0 576 72 648 0 FreeSans 288 0 0 0 VPWR
+port 2 nsew power bidirectional
+flabel nwell 0 540 36 576 0 FreeSans 288 0 0 0 VPB
+port 3 nsew power bidirectional
+flabel pwell 0 0 36 36 0 FreeSans 288 0 0 0 VNB
+port 4 nsew ground bidirectional
+<< properties >>
+string FIXED_BBOX 0 -36 360 612
+<< end >>

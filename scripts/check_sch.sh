@@ -10,7 +10,9 @@
 # netlist (libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice), renamed, with
 # its widths snapped to the lambda grid by scripts/lambda_widths.py --ref (written
 # to lvs/check/ref/), as the generators snap the schematics' widths. allcells
-# has no PDK counterpart; `make lvs CELL=sky130_efx_lvdig__allcells` checks it. With --png, also render
+# has no PDK counterpart; `make lvs CELL=sky130_efx_lvdig__allcells` checks it.
+# Nor do the lvdig-only cells in LVDIG_ONLY (the decaps): they are reported
+# and skipped, and `make lvs CELL=...` checks them against their layouts. With --png, also render
 # it (2700x1600). Rendering needs an X display: xschem opens a window per cell,
 # so it runs under xvfb-run when that is installed. Netlisting never opens one.
 # Outputs go to lvs/check/ (ignored by git). Netgen's "Final result" line says
@@ -34,9 +36,14 @@ if [ $# -eq 0 ]; then
   set -- $(cd "$R/xschem" && ls sky130_efx_lvdig__*.sch | sed 's/^sky130_efx_lvdig__//; s/\.sch$//' | grep -vx allcells)
 fi
 
+LVDIG_ONLY=' decap10 decap20 '
+
 fail=0
 for c in "$@"; do
   n=sky130_efx_lvdig__$c
+  if [[ $LVDIG_ONLY == *" $c "* ]]; then
+    printf '%-16s %s\n' "$c" 'skipped (lvdig-only, no PDK reference)'; continue
+  fi
   rm -f "$O/$n.spice" "$O/$c.out"
   if ! python3 "$R/scripts/lambda_widths.py" --ref "$c" "$O/ref/$n.spice"; then
     printf '%-16s %s\n' "$c" 'no PDK reference'; fail=1; continue

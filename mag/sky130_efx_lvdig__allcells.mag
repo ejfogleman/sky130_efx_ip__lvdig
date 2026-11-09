@@ -1,17 +1,12 @@
 magic
 tech sky130A
-timestamp 1794175135
+timestamp 1794266480
 << checkpaint >>
-rect -648 6480 2052 6804
-rect -648 5832 2826 6480
-rect -648 4176 3078 5832
-rect -648 3528 2538 4176
-rect -648 3204 2520 3528
-rect -648 2916 2466 3204
-rect -648 2592 2916 2916
-rect -648 936 3114 2592
-rect -648 -36 2844 936
-rect -648 -684 2592 -36
+rect -648 6156 3114 6804
+rect -648 2232 3150 6156
+rect -648 1296 3132 2232
+rect -648 -360 3150 1296
+rect -648 -684 3114 -360
 << metal1 >>
 rect 0 6120 36 6156
 rect 0 5472 36 5508
@@ -81,7 +76,7 @@ timestamp 1794021122
 transform 1 0 864 0 -1 1260
 box 0 -54 684 342
 use sky130_efx_lvdig__clkdlybuf4s50_1  sky130_efx_lvdig__clkdlybuf4s50_1_0
-timestamp 1794175107
+timestamp 1794179780
 transform 1 0 756 0 1 5832
 box 0 -54 576 342
 use sky130_efx_lvdig__clkinv_1  sky130_efx_lvdig__clkinv_1_0
@@ -104,6 +99,14 @@ use sky130_efx_lvdig__conb_1  sky130_efx_lvdig__conb_1_0
 timestamp 1794175107
 transform 1 0 72 0 1 5832
 box 0 -54 108 342
+use sky130_efx_lvdig__decap10  sky130_efx_lvdig__decap10_0
+timestamp 1794265785
+transform 1 0 1332 0 1 5832
+box 0 -54 180 342
+use sky130_efx_lvdig__decap20  sky130_efx_lvdig__decap20_0
+timestamp 1794265330
+transform 1 0 1512 0 1 5832
+box 0 -54 360 342
 use sky130_efx_lvdig__dfbbp_1  sky130_efx_lvdig__dfbbp_1_0
 timestamp 1794174692
 transform 1 0 108 0 -1 5148
@@ -141,7 +144,7 @@ timestamp 1794174690
 transform 1 0 108 0 -1 2556
 box 0 -54 1188 342
 use sky130_efx_lvdig__dlygate4sd3_1  sky130_efx_lvdig__dlygate4sd3_1_0
-timestamp 1794175106
+timestamp 1794179780
 transform 1 0 180 0 1 5832
 box 0 -54 576 342
 use sky130_efx_lvdig__edfxbp_1  sky130_efx_lvdig__edfxbp_1_0
@@ -152,6 +155,322 @@ use sky130_efx_lvdig__edfxtp_1  sky130_efx_lvdig__edfxtp_1_0
 timestamp 1794109694
 transform 1 0 72 0 1 5184
 box 0 -54 1872 342
+use sky130_efx_lvdig__filler2  sky130_efx_lvdig__filler2_0
+timestamp 1794266169
+transform 1 0 2448 0 -1 612
+box -36 -54 72 342
+use sky130_efx_lvdig__filler2  sky130_efx_lvdig__filler2_1
+timestamp 1794266169
+transform 1 0 2448 0 -1 3204
+box -36 -54 72 342
+use sky130_efx_lvdig__filler2  sky130_efx_lvdig__filler2_2
+timestamp 1794266169
+transform 1 0 2448 0 1 3888
+box -36 -54 72 342
+use sky130_efx_lvdig__filler2  sky130_efx_lvdig__filler2_3
+timestamp 1794266169
+transform 1 0 2448 0 1 4536
+box -36 -54 72 342
+use sky130_efx_lvdig__filler2  sky130_efx_lvdig__filler2_4
+timestamp 1794266169
+transform 1 0 2448 0 -1 5148
+box -36 -54 72 342
+use sky130_efx_lvdig__filler2  sky130_efx_lvdig__filler2_5
+timestamp 1794266169
+transform 1 0 2448 0 1 5184
+box -36 -54 72 342
+use sky130_efx_lvdig__filler4  sky130_efx_lvdig__filler4_0
+timestamp 1794266170
+transform 1 0 2412 0 -1 1260
+box -18 -54 90 342
+use sky130_efx_lvdig__filler4  sky130_efx_lvdig__filler4_1
+timestamp 1794266170
+transform 1 0 2412 0 1 1944
+box -18 -54 90 342
+use sky130_efx_lvdig__filler4  sky130_efx_lvdig__filler4_2
+timestamp 1794266170
+transform 1 0 2412 0 -1 2556
+box -18 -54 90 342
+use sky130_efx_lvdig__filler4  sky130_efx_lvdig__filler4_3
+timestamp 1794266170
+transform 1 0 2412 0 1 3240
+box -18 -54 90 342
+use sky130_efx_lvdig__filler4  sky130_efx_lvdig__filler4_4
+timestamp 1794266170
+transform 1 0 2412 0 -1 3852
+box -18 -54 90 342
+use sky130_efx_lvdig__filler6  sky130_efx_lvdig__filler6_0
+timestamp 1794266171
+transform 1 0 2376 0 1 0
+box 0 -54 108 342
+use sky130_efx_lvdig__filler6  sky130_efx_lvdig__filler6_1
+timestamp 1794266171
+transform 1 0 2376 0 1 1296
+box 0 -54 108 342
+use sky130_efx_lvdig__filler6  sky130_efx_lvdig__filler6_2
+timestamp 1794266171
+transform 1 0 2376 0 1 2592
+box 0 -54 108 342
+use sky130_efx_lvdig__filler6  sky130_efx_lvdig__filler6_3
+timestamp 1794266171
+transform 1 0 2376 0 1 5832
+box 0 -54 108 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_0
+timestamp 1794266171
+transform 1 0 1944 0 1 0
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_1
+timestamp 1794266171
+transform 1 0 2088 0 1 0
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_2
+timestamp 1794266171
+transform 1 0 2232 0 1 0
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_3
+timestamp 1794266171
+transform 1 0 1872 0 -1 612
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_4
+timestamp 1794266171
+transform 1 0 2016 0 -1 612
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_5
+timestamp 1794266171
+transform 1 0 2160 0 -1 612
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_6
+timestamp 1794266171
+transform 1 0 2304 0 -1 612
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_7
+timestamp 1794266171
+transform 1 0 2196 0 1 648
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_8
+timestamp 1794266171
+transform 1 0 2340 0 1 648
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_9
+timestamp 1794266171
+transform 1 0 2124 0 -1 1260
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_10
+timestamp 1794266171
+transform 1 0 2268 0 -1 1260
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_11
+timestamp 1794266171
+transform 1 0 1800 0 1 1296
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_12
+timestamp 1794266171
+transform 1 0 1944 0 1 1296
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_13
+timestamp 1794266171
+transform 1 0 2088 0 1 1296
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_14
+timestamp 1794266171
+transform 1 0 2232 0 1 1296
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_15
+timestamp 1794266171
+transform 1 0 2268 0 1 1944
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_16
+timestamp 1794266171
+transform 1 0 1404 0 -1 2556
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_17
+timestamp 1794266171
+transform 1 0 1548 0 -1 2556
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_18
+timestamp 1794266171
+transform 1 0 1692 0 -1 2556
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_19
+timestamp 1794266171
+transform 1 0 1836 0 -1 2556
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_20
+timestamp 1794266171
+transform 1 0 1980 0 -1 2556
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_21
+timestamp 1794266171
+transform 1 0 2124 0 -1 2556
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_22
+timestamp 1794266171
+transform 1 0 2268 0 -1 2556
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_23
+timestamp 1794266171
+transform 1 0 1656 0 1 2592
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_24
+timestamp 1794266171
+transform 1 0 1800 0 1 2592
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_25
+timestamp 1794266171
+transform 1 0 1944 0 1 2592
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_26
+timestamp 1794266171
+transform 1 0 2088 0 1 2592
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_27
+timestamp 1794266171
+transform 1 0 2232 0 1 2592
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_28
+timestamp 1794266171
+transform 1 0 1584 0 -1 3204
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_29
+timestamp 1794266171
+transform 1 0 1728 0 -1 3204
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_30
+timestamp 1794266171
+transform 1 0 1872 0 -1 3204
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_31
+timestamp 1794266171
+transform 1 0 2016 0 -1 3204
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_32
+timestamp 1794266171
+transform 1 0 2160 0 -1 3204
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_33
+timestamp 1794266171
+transform 1 0 2304 0 -1 3204
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_34
+timestamp 1794266171
+transform 1 0 1548 0 1 3240
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_35
+timestamp 1794266171
+transform 1 0 1692 0 1 3240
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_36
+timestamp 1794266171
+transform 1 0 1836 0 1 3240
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_37
+timestamp 1794266171
+transform 1 0 1980 0 1 3240
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_38
+timestamp 1794266171
+transform 1 0 2124 0 1 3240
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_39
+timestamp 1794266171
+transform 1 0 2268 0 1 3240
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_40
+timestamp 1794266171
+transform 1 0 1836 0 -1 3852
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_41
+timestamp 1794266171
+transform 1 0 1980 0 -1 3852
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_42
+timestamp 1794266171
+transform 1 0 2124 0 -1 3852
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_43
+timestamp 1794266171
+transform 1 0 2268 0 -1 3852
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_44
+timestamp 1794266171
+transform 1 0 1872 0 1 3888
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_45
+timestamp 1794266171
+transform 1 0 2016 0 1 3888
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_46
+timestamp 1794266171
+transform 1 0 2160 0 1 3888
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_47
+timestamp 1794266171
+transform 1 0 2304 0 1 3888
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_48
+timestamp 1794266171
+transform 1 0 1908 0 -1 4500
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_49
+timestamp 1794266171
+transform 1 0 2052 0 -1 4500
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_50
+timestamp 1794266171
+transform 1 0 2196 0 -1 4500
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_51
+timestamp 1794266171
+transform 1 0 2340 0 -1 4500
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_52
+timestamp 1794266171
+transform 1 0 1872 0 1 4536
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_53
+timestamp 1794266171
+transform 1 0 2016 0 1 4536
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_54
+timestamp 1794266171
+transform 1 0 2160 0 1 4536
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_55
+timestamp 1794266171
+transform 1 0 2304 0 1 4536
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_56
+timestamp 1794266171
+transform 1 0 2016 0 1 5184
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_57
+timestamp 1794266171
+transform 1 0 2160 0 1 5184
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_58
+timestamp 1794266171
+transform 1 0 2304 0 1 5184
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_59
+timestamp 1794266171
+transform 1 0 2196 0 -1 5796
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_60
+timestamp 1794266171
+transform 1 0 2340 0 -1 5796
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_61
+timestamp 1794266171
+transform 1 0 1944 0 1 5832
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_62
+timestamp 1794266171
+transform 1 0 2088 0 1 5832
+box 0 -54 144 342
+use sky130_efx_lvdig__filler8  sky130_efx_lvdig__filler8_63
+timestamp 1794266171
+transform 1 0 2232 0 1 5832
+box 0 -54 144 342
 use sky130_efx_lvdig__ha_1  sky130_efx_lvdig__ha_1_0
 timestamp 1794104416
 transform 1 0 1512 0 1 1944
@@ -254,7 +573,7 @@ transform 1 0 1944 0 1 5184
 box -18 -54 90 342
 use sky130_efx_lvdig__tapvgnd_1  sky130_efx_lvdig__tapvgnd_1_9
 timestamp 1794067076
-transform 1 0 1332 0 1 5832
+transform 1 0 1872 0 1 5832
 box -18 -54 90 342
 use sky130_efx_lvdig__tapvgnd_2  sky130_efx_lvdig__tapvgnd_2_0
 timestamp 1794067054

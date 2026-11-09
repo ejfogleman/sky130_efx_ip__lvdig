@@ -207,6 +207,8 @@ C {devices/lab_pin.sym} 400 7200 0 1 {name=l152 lab=xdlygate4sd3_1_X}
 C {sky130_efx_lvdig__clkdlybuf4s50_1.sym} 720 7200 0 0 {name=xclkdlybuf4s50_1 VGND=VGND VNB=VGND VPB=VPWR_R1819 VPWR=VPWR_R1819 prefix=sky130_efx_lvdig__}
 C {devices/lab_pin.sym} 680 7200 0 0 {name=l153 lab=xclkdlybuf4s50_1_A}
 C {devices/lab_pin.sym} 760 7200 0 1 {name=l154 lab=xclkdlybuf4s50_1_X}
+C {sky130_efx_lvdig__decap10.sym} 1080 7200 0 0 {name=xdecap10 VGND=VGND VNB=VGND VPB=VPWR_R1819 VPWR=VPWR_R1819 prefix=sky130_efx_lvdig__}
+C {sky130_efx_lvdig__decap20.sym} 1440 7200 0 0 {name=xdecap20 VGND=VGND VNB=VGND VPB=VPWR_R1819 VPWR=VPWR_R1819 prefix=sky130_efx_lvdig__}
 C {devices/iopin.sym} -200 0 0 0 {name=p1 lab=VGND}
 C {devices/iopin.sym} -200 40 0 0 {name=p2 lab=VPWR_R01}
 C {devices/iopin.sym} -200 80 0 0 {name=p3 lab=VPWR_R23}

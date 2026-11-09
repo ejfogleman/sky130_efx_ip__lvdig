@@ -1,12 +1,57 @@
-# Fresh-context pickup -- lvdig library complete (48 cells); library CDL/extracted netlists, netlist/ removed, unused layouts set aside
+# Fresh-context pickup -- lvdig library complete (48 cells + 2 decaps + 4 fillers); library CDL/extracted netlists, netlist/ removed, unused layouts set aside
 
-**Written**: 2026-11-08 (end of session), superseding `pickup-2026-11-08-lvdig-all-48-cells-done.md` (and, through it, the earlier 2026-11-08 and 2026-11-06 pickups)
+**Written**: 2026-11-08; updated 2026-11-09 (decaps, fillers, padded allcells: section 0), superseding `pickup-2026-11-08-lvdig-all-48-cells-done.md` (and, through it, the earlier 2026-11-08 and 2026-11-06 pickups)
 **Repo**: sky130_efx_ip__lvdig (renamed from sky130_efx_ip__diglib on 2026-11-08), branch `main`
-**HEAD**: `97d0bd5` -- "Add standard cell lists for sar_dev and pll96". **Nothing since the initial cell lists is committed**: ~248 modified/untracked paths (`git status --short`). The user has not asked for a commit; ask before making one (suggest a branch).
+**HEAD**: `3a2b580` -- "Added sch, sym, mag for initial cells (sar8, pll96)", committed and pushed by the user (2026-11-08; 284 files). It holds everything in section 1, including this memo's previous version. `main` matches `origin/main`. **The 2026-11-09 work (section 0) is uncommitted.**
 
 The library is `sky130_efx_lvdig__<cell>`: the sky130_fd_sc_hd cells used by sar_dev and pll96 (`/home/ejf/Projects/sky130_efx_ip__lvdig/doc/cells_*.txt`), redrawn as xschem schematics and new Magic layouts on the efx lambda grid (L = 0.18 um). Read `/home/ejf/Projects/sky130_efx_ip__lvdig/CLAUDE.md` first: it documents the conventions, scripts, met1 rules, library netlists and checks. This memo covers what isn't there. The library is **for hand-placed custom design only** (user, 2026-11-08): no place-and-route collateral.
 
-## 1. What landed (all uncommitted; file list from this session's edits)
+## 0. Decaps and fillers (2026-11-09, uncommitted)
+
+Everything in this section is uncommitted. All of it is lvdig-only (no hd counterpart).
+
+### Decap cells
+
+Each is an nfet with its gate on VPWR and an hvt pfet with its gate on VGND, source/drain on the opposite rail. Final state (both in **hd's decap style**):
+
+| Cell | Width | nfet | pfet (hvt) | Device cells | Builder | C, schematic / extracted (tt, 1.8 V) |
+|---|---|---|---|---|---|---|
+| decap10 | 10L, 1.80 um | W 0.63 / L 0.72 | W 0.90 / L 0.72 | `nmos_n3f5_f1_l720_ff_sp`, `pmos_n5_f1_l720_hvt_ff_sp` | `scripts/mag_build_decap10.tcl` | 8.83 / 10.37 fF |
+| decap20 | 20L, 3.60 um | W 0.63 / L 2.52 | W 0.90 / L 2.52 | `nmos_n3f5_f1_l2520_ff_sp`, `pmos_n5_f1_l2520_hvt_ff_sp` | `scripts/mag_build_decap20.tcl` | 29.88 / 32.88 fF |
+
+- **Style** (both): one long device of each type, one source/drain strip at each cell edge; rows ndiff 0.18-0.81, nfet poly band 0.81-0.99, gate-tie pads, pfet poly band 1.62-1.80, pdiff 1.80-2.70 (um). The pfet's pad (left) ties its gate to VGND, the nfet's pad (right) to VPWR. li in strip columns: VGND up the left into the pfet pad, VPWR down the right into the nfet pad.
+  - decap20: pads with three contacts each between the strips. Claude first flooded the li over each device as hd does; **the user replaced the flood with strip columns**, and `mag_build_decap20.tcl` was updated to reproduce the user's file exactly (checked shape for shape).
+  - decap10: two 3-contact pads don't fit over a 0.72 gate, so each pad has one contact and runs out over its strip column, the contact under that column's li (pfet pad x 0.18-0.72, contact x 0.36; nfet pad x 1.08-1.62, contact x 1.44).
+  - Both builders skip an existing cell: delete the `.mag` to rebuild.
+- **History** (this session): the user drew both cells (decap10 W 0.54/0.72 L 0.72; decap20 two fingers L 1.08) 0.18 um off the library frame with std-Vt pmos. Claude shifted them into the frame, finished them with `scripts/mag_finish_decap.tcl` (now only a record of those first versions), added two missing li ties in decap20, and converted the pmos to hvt at the user's request. The user then asked for decap20 in hd's style, edited its li, and asked for decap10 in the same style. Superseded device cells (`nmos_n3_f1_l{720,1080}`, `pmos_n4_f1_l{720,1080}_hvt`) are in `mag/unused/`.
+- **Schematics and symbols**: `xschem/sky130_efx_lvdig__decap{10,20}.sch`, hand-written (`pfet_01v8_hvt`, `mult=1`), with the two-line copyright header (no "Derived from SkyWater"). The `.sym` files are copies of the PDK's `decap_8.sym`, made subcircuits as conb_1's, with the "Modified for sky130_efx_lvdig" note.
+- **`scripts/check_sch.sh`** skips cells in a new `LVDIG_ONLY` list (the decaps), printing "skipped (lvdig-only, no PDK reference)" instead of failing.
+- **Checks run (final versions)**: each decap DRC 0, `make lvs` match. Earlier, an unsaved abutment test (decaps beside hvt logic cells, dfxtp_2, mux2_1, taps, normal and flipped rows) gave DRC 0.
+
+### Filler cells
+
+- `sky130_efx_lvdig__filler2/4/6/8` (2-8 L, 0.36-1.44 um), **layout only** (user's request), built by `scripts/mag_build_fillers.tcl`: `lvdig_rails` + `power_pins` (rails, gridded viali, n-well, p-well, FIXED_BBOX, VGND/VPWR/VPB/VNB labels), nothing else.
+- filler2 and filler4 extend the n-well 2L / 1L past both edges to meet nwell.1 (0.84 um), as the 4L tap cells do.
+- The user wrote `sky130_efx_lvdig_filler2` (one underscore); Claude used the library's `__` prefix and said so. Rename if the user wants the single underscore.
+- Checks: each DRC 0 (default; `drc(full)` only nwell.4, as every untapped cell). An unsaved abutment test with logic cells, decaps and taps, normal and flipped rows: DRC 0 in both styles.
+
+### allcells
+
+- decap10 and decap20 are at the end of the last row (`ROWS` in `scripts/mag_build_allcells.tcl`).
+- **Every row is padded to the widest (24.84 um, row 5) with fillers**, placed after the row's closing tap so no logic diffusion moves away from a tap. The padding is computed in the build script (filler8s, then one filler6/4/2), not listed in `ROWS`, so `gen_allcells_sch.py` (no filler schematics) is unaffected.
+- allcells was deleted and rebuilt: DRC 0 in the default and `drc(full)` styles, `make lvs` match. The schematic (50 cells) differs from HEAD only by the two decap instances.
+
+### Other
+
+- `make libcdl libspice` (PEX=c): 50 cells each, after the final decaps. `check_sch.sh`: 48 match + 2 skipped, exit 0.
+- `nmos_n3_f3_l150.mag`, `pmos_n4_f1_l150.mag` (the user's, unreferenced) moved to `mag/unused/`.
+- **Untracked files Claude didn't create**: `mag/sky130_ef_sc_hd__decap_{12,20_12,40_12,60_12,80_12}.mag` and `mag/sky130_ef_sc_hd__fill_{2,4,8,12}.mag`, PDK copies the user added (presumably for reference). Claude asked whether they should go to `mag/unused/`; no answer yet. Don't touch them unasked.
+- README (decap and filler tables under Cells) and CLAUDE.md (Decaps and Fillers notes after the builders) are updated.
+- Q&A this session (no file changes): `rmp` is a poly "short" resistor marker (66:15, extracts as `res_generic_po`, 48.2 ohm/sq) vs `mrp1`/`npolyres` (66:13, own DRC rules); li is 12.8 ohm/sq nominal; tap spacing allows 162L of logic between end taps, 80L with a tap at one end only (Magic's reach is 14.915 um from the tap contact).
+- Backups (temporary): the user's original decaps `/tmp/nix-shell.GCuCCo/claude-1000/-home-ejf-Projects-sky130-efx-ip--diglib/ab917cca-4ef1-4843-94b1-fefd54a0e39a/scratchpad/decap_orig/`; earlier decap20 `/tmp/nix-shell.GCuCCo/claude-1000/-home-ejf-Projects-sky130-efx-ip--diglib/ab917cca-4ef1-4843-94b1-fefd54a0e39a/scratchpad/decap20_prev/`; earlier decap10 `/tmp/nix-shell.GCuCCo/claude-1000/-home-ejf-Projects-sky130-efx-ip--lvdig/ab917cca-4ef1-4843-94b1-fefd54a0e39a/scratchpad/decap10_prev/`.
+- **Uncommitted files**: modified `CLAUDE.md`, `README.md`, this memo, `mag/sky130_efx_lvdig__allcells.mag`, `scripts/check_sch.sh`, `scripts/mag_build_allcells.tcl`, `xschem/sky130_efx_lvdig__allcells.sch`; new `mag/sky130_efx_lvdig__decap{10,20}.mag`, `mag/sky130_efx_lvdig__filler{2,4,6,8}.mag`, the four `*_ff_sp` device cells above, `scripts/mag_build_{decap10,decap20,fillers}.tcl`, `scripts/mag_finish_decap.tcl`, `xschem/sky130_efx_lvdig__decap{10,20}.{sch,sym}`.
+
+## 1. What landed (committed in `3a2b580`)
 
 Most recent first.
 
@@ -21,7 +66,7 @@ Most recent first.
   - The user moved the local folder to `~/Projects/sky130_efx_ip__lvdig` (2026-11-08). The repo is intact there: same changes, new remote, memory present.
   - The old memory folder `~/.claude/projects/-home-ejf-Projects-sky130-efx-ip--diglib/` can be deleted once sessions run from the new folder.
   - The scratchpad paths below still contain `-diglib`; that's the old session's temporary folder.
-  - GitHub's HEAD is `5418e03`: the local commit `97d0bd5` hasn't been pushed.
+  - Everything was pushed in `3a2b580`, so GitHub and the local clone match.
 - **Absolute `use` paths removed** from `mag/sky130_efx_lvdig__nand2_2.mag` (3 lines) and `nor2_2.mag` (2 lines). They ended in `~/Projects/sky130_efx_ip__diglib/mag` and would have broken with the folder rename.
   - Both cells are DRC 0 and match LVS.
   - Backup: `scratchpad/pre_usepath/`.
@@ -151,9 +196,9 @@ All of these ran this session, inside `nix develop ~/nix-efx` from the repo root
 ```
 make lvs CELL=sky130_efx_lvdig__<cell>        # "LVS ... match" for all 48 cells (each rerun after its last change)
 make lvs CELL=sky130_efx_lvdig__allcells      # match
-scripts/check_sch.sh                          # 48 x "match", exit 0 (allcells skipped)
-make libcdl libspice                          # "Nothing to be done" when current; 48 cells each (outputs ignored by git)
-make libspice PEX=none; make libspice PEX=rc  # devices-only and RC netlists, 48 cells each
+scripts/check_sch.sh                          # 48 x "match", decap10/decap20 skipped, exit 0 (allcells skipped)
+make libcdl libspice                          # 50 cells each (outputs ignored by git)
+make libspice PEX=none; make libspice PEX=rc  # devices-only and RC netlists (48 cells when last run, before the decaps)
 cd mag && magic -dnull -noconsole <script>    # allcells DRC 0 in default and drc(full) styles
 ```
 - `make lvs` prints xschem `Error 10 (ignored)`. This is expected.
@@ -164,7 +209,7 @@ cd mag && magic -dnull -noconsole <script>    # allcells DRC 0 in default and dr
 
 - **Flop review by the user** (they said they will). Act on their feedback; don't open GUI windows unless asked.
 - `xschem_backup/` was removed by the user (2026-11-08). The CLAUDE.md mention and the `.gitignore` exception are gone.
-- **Commit** when the user asks, on a branch. (`cdl/` and `spice/` outputs are not tracked; only their `.gitkeep` files are.) The scratchpad backups won't survive the session.
+- **Committing:** work through 2026-11-08 is in `3a2b580`; the 2026-11-09 work (section 0) is not committed. Commit and push only when the user asks. `cdl/` and `spice/` outputs stay untracked (only their `.gitkeep` files are tracked). The scratchpad backups named in section 1 belonged to the 2026-11-08 session and are gone once it ends; git history replaces them.
 - **Optional:** explain why the RC delay of dlygate4sd3_1 (0.504 ns) is below the C-only one (0.518 ns). A start: compare per-net ground vs coupling C in `_c` and `_rc`.
 - **Optional:** simulate the delay cells. The sizes match hd's except for the snapped widths.
 - History scripts, not to be rerun: `scripts/mag_build_inv4_buf2.tcl`, `mag_shrink_nand2_nor2.tcl`.
@@ -173,7 +218,10 @@ cd mag && magic -dnull -noconsole <script>    # allcells DRC 0 in default and dr
 
 - **conb_1 resistors:** W 0.45 x L 0.54.
 - **Library netlists untracked:** regenerate them, don't commit them.
-- **Custom design only:** no LEF, maglef, techlef/SITE, Liberty, mask hints or fill/decap cells.
+- **Custom design only:** no LEF, maglef, techlef/SITE, Liberty or mask hints. (Decap and filler cells now exist, 2026-11-09.)
+- **Decaps use hvt pfets** like the rest of the library (user, 2026-11-09).
+- **Decap style:** hd's (one long device each, gate-tie pads between the rows), but with li in strip columns, not hd's flood (user's edit of decap20, 2026-11-09).
+- **Fillers are layout only**, and allcells pads rows with them after the closing tap (2026-11-09).
 - **met1 in logic layouts:**
   - li only, except the mux2 strap, ha_1's two straps and the flops' clock lines and minimal extra lines.
   - Never put met1 over an li pin.
@@ -204,5 +252,5 @@ cd mag && magic -dnull -noconsole <script>    # allcells DRC 0 in default and dr
 
 1. Enter `nix develop ~/nix-efx`.
 2. Run `pgrep -a magic`.
-3. Run `scripts/check_sch.sh` (expect 48 match, exit 0) and `make libcdl libspice` (on a fresh clone this generates the netlists, which aren't tracked; otherwise "Nothing to be done").
-4. Ask whether the user has flop-review feedback, and whether to commit (on a branch).
+3. Run `scripts/check_sch.sh` (expect 48 match, 2 decaps skipped, exit 0) and `make libcdl libspice` (on a fresh clone this generates the netlists, which aren't tracked; otherwise "Nothing to be done").
+4. Ask whether the user wants the 2026-11-09 work (section 0) committed, what to do with the untracked `sky130_ef_sc_hd__decap_*`/`fill_*` copies in `mag/`, and whether they have flop-review feedback.

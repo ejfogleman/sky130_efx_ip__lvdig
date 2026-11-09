@@ -70,6 +70,22 @@ Tap cells, one at each end of every allcells row (no schematics; LVS skips them)
 | `tapvpwrvgnd_1` | Substrate and well tap cell. | 0.72 |
 | `tapvpwrvgnd_2` | Substrate and well tap cell. | 1.08 |
 
+Decoupling capacitors (lvdig cells with no hd counterpart). Each is an nfet with its gate on VPWR and an hvt pfet with its gate on VGND, source and drain on the opposite rail; the suffix is the width in lambda (0.18 µm):
+
+| Cell | Description | Width (µm) |
+|---|---|---:|
+| `decap10` | Decoupling capacitor in decap20's style: one nfet W 0.63 / L 0.72 and one pfet W 0.90 / L 0.72, gates tied off through poly pads between them. | 1.80 |
+| `decap20` | Decoupling capacitor in hd's decap style: one nfet W 0.63 / L 2.52 and one pfet W 0.90 / L 2.52, gates tied off through poly pads between them. | 3.60 |
+
+Filler cells (layout only, no schematic or symbol): rails, gridded rail contacts, n-well and p-well, to fill gaps in a row (allcells pads each row to the widest with them). filler2 and filler4 run their n-well past both edges to meet the 0.84 µm minimum width, as the 4L tap cells do:
+
+| Cell | Description | Width (µm) |
+|---|---|---:|
+| `filler2` | Filler, 2L. | 0.36 |
+| `filler4` | Filler, 4L. | 0.72 |
+| `filler6` | Filler, 6L. | 1.08 |
+| `filler8` | Filler, 8L. | 1.44 |
+
 hd's descriptions of the delay cells give an inner-stage gate length (0.50 µm for dlygate4sd3, 0.59 µm for clkdlybuf4s50); both cells here use the 0.5 µm of hd's netlists. Transistor widths are snapped to the lambda grid, so cells don't match hd's sizes exactly (see `NOTICE` and CLAUDE.md).
 
 ## Files

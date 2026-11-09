@@ -25,7 +25,7 @@ set ROWS {
     {tapvgnd_2 dfbbp_1 tapvpwrvgnd_2}
     {tapvpwrvgnd_1 edfxtp_1 tapvgnd_1}
     {tapvgnd_2 edfxbp_1 tapvpwrvgnd_2}
-    {tapvpwrvgnd_1 conb_1 dlygate4sd3_1 clkdlybuf4s50_1 tapvgnd_1}
+    {tapvpwrvgnd_1 conb_1 dlygate4sd3_1 clkdlybuf4s50_1 decap10 decap20 tapvgnd_1}
 }
 
 # FIXED_BBOX width in um, from the .mag file (internal units 0.005 um)
@@ -37,6 +37,27 @@ proc width {cell} {
     return [expr {($x1 - $x0) * 0.005}]
 }
 
+# Pad every row to the widest with filler cells (2026-11-09), placed after the
+# row's closing tap so no logic diffusion moves away from a tap (fillers have
+# no diffusion, so LU.2/LU.3 don't apply to them; their n-well joins the row's
+# tapped n-well). The shortfall is a multiple of 2L (all widths are even L):
+# filler8s, then one filler6/4/2 for the rest. Fillers are not in ROWS, so
+# gen_allcells_sch.py (no schematic for them) is unaffected.
+proc row_width {row} {
+    set w 0.0
+    foreach c $row { set w [expr {$w + [width sky130_efx_lvdig__$c]}] }
+    return $w
+}
+set wmax 0.0
+foreach row $ROWS { set wmax [expr {max($wmax, [row_width $row])}] }
+proc padding {gap} {
+    set n [expr {round($gap / 0.18)}]   ;# shortfall in L, even
+    set out {}
+    while {$n >= 8} { lappend out filler8; incr n -8 }
+    if {$n > 0} { lappend out filler$n }
+    return $out
+}
+
 load sky130_efx_lvdig__allcells
 set r 0
 foreach row $ROWS {
@@ -45,7 +66,9 @@ foreach row $ROWS {
     # origin is at its top, 3.24r + 2.88
     set flip [expr {$r % 2}]
     set y [expr {3.24 * $r + ($flip ? 2.88 : 0)}]
-    foreach c $row {
+    set pad [padding [expr {$wmax - [row_width $row]}]]
+    if {[llength $pad]} { puts "row $r: padding $pad" }
+    foreach c [concat $row $pad] {
         set cell sky130_efx_lvdig__$c
         set xs [format %.2f $x]; set ys [format %.2f $y]
         box values ${xs}um ${ys}um ${xs}um ${ys}um
