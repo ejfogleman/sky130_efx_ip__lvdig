@@ -1,0 +1,143 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1794021122
+<< checkpaint >>
+rect -1260 -1368 1836 1944
+<< nwell >>
+rect 0 288 576 684
+<< pwell >>
+rect 0 0 576 216
+<< poly >>
+rect 36 269 468 288
+rect 36 235 55 269
+rect 89 235 468 269
+rect 36 216 468 235
+<< polycont >>
+rect 55 235 89 269
+<< locali >>
+rect 0 629 576 648
+rect 0 595 19 629
+rect 53 595 91 629
+rect 125 595 163 629
+rect 197 595 235 629
+rect 269 595 307 629
+rect 341 595 379 629
+rect 413 595 451 629
+rect 485 595 523 629
+rect 557 595 576 629
+rect 0 576 576 595
+rect 36 504 108 576
+rect 252 504 324 576
+rect 468 504 540 576
+rect 144 288 216 360
+rect 360 288 432 360
+rect 36 269 108 288
+rect 36 235 55 269
+rect 89 235 108 269
+rect 36 216 108 235
+rect 144 216 432 288
+rect 144 144 216 216
+rect 360 144 432 216
+rect 36 0 108 72
+rect 252 0 324 72
+rect 468 0 540 72
+rect 0 -19 576 0
+rect 0 -53 19 -19
+rect 53 -53 91 -19
+rect 125 -53 163 -19
+rect 197 -53 235 -19
+rect 269 -53 307 -19
+rect 341 -53 379 -19
+rect 413 -53 451 -19
+rect 485 -53 523 -19
+rect 557 -53 576 -19
+rect 0 -72 576 -53
+<< viali >>
+rect 19 595 53 629
+rect 91 595 125 629
+rect 163 595 197 629
+rect 235 595 269 629
+rect 307 595 341 629
+rect 379 595 413 629
+rect 451 595 485 629
+rect 523 595 557 629
+rect 19 -53 53 -19
+rect 91 -53 125 -19
+rect 163 -53 197 -19
+rect 235 -53 269 -19
+rect 307 -53 341 -19
+rect 379 -53 413 -19
+rect 451 -53 485 -19
+rect 523 -53 557 -19
+<< metal1 >>
+rect 0 629 576 684
+rect 0 595 19 629
+rect 53 595 91 629
+rect 125 595 163 629
+rect 197 595 235 629
+rect 269 595 307 629
+rect 341 595 379 629
+rect 413 595 451 629
+rect 485 595 523 629
+rect 557 595 576 629
+rect 0 540 576 595
+rect 0 -19 576 36
+rect 0 -53 19 -19
+rect 53 -53 91 -19
+rect 125 -53 163 -19
+rect 197 -53 235 -19
+rect 269 -53 307 -19
+rect 341 -53 379 -19
+rect 413 -53 451 -19
+rect 485 -53 523 -19
+rect 557 -53 576 -19
+rect 0 -108 576 -53
+use nmos_n3f5_f1_l150  nmos_n3f5_f1_l150_0
+timestamp 1794005837
+transform 1 0 72 0 1 36
+box -72 -36 180 180
+use nmos_n3f5_f1_l150  nmos_n3f5_f1_l150_1
+timestamp 1794005837
+transform 1 0 180 0 1 36
+box -72 -36 180 180
+use nmos_n3f5_f1_l150  nmos_n3f5_f1_l150_2
+timestamp 1794005837
+transform 1 0 288 0 1 36
+box -72 -36 180 180
+use nmos_n3f5_f1_l150  nmos_n3f5_f1_l150_3
+timestamp 1794005837
+transform 1 0 396 0 1 36
+box -72 -36 180 180
+use pmos_n6_f1_l150_hvt  pmos_n6_f1_l150_hvt_0
+timestamp 1794004327
+transform 1 0 72 0 1 324
+box -72 -36 180 252
+use pmos_n6_f1_l150_hvt  pmos_n6_f1_l150_hvt_1
+timestamp 1794004327
+transform 1 0 180 0 1 324
+box -72 -36 180 252
+use pmos_n6_f1_l150_hvt  pmos_n6_f1_l150_hvt_2
+timestamp 1794004327
+transform 1 0 288 0 1 324
+box -72 -36 180 252
+use pmos_n6_f1_l150_hvt  pmos_n6_f1_l150_hvt_3
+timestamp 1794004327
+transform 1 0 396 0 1 324
+box -72 -36 180 252
+<< labels >>
+flabel locali 36 216 108 288 0 FreeSans 288 0 0 0 A
+port 1 nsew signal input
+flabel locali 144 216 216 288 0 FreeSans 288 0 0 0 Y
+port 2 nsew signal output
+flabel metal1 0 576 18 648 0 FreeSans 288 0 0 0 VPWR
+port 3 nsew power bidirectional
+flabel metal1 0 -72 18 0 0 FreeSans 288 0 0 0 VGND
+port 4 nsew ground bidirectional
+flabel nwell 0 540 36 576 0 FreeSans 288 0 0 0 VPB
+port 5 nsew power bidirectional
+flabel pwell 0 0 36 36 0 FreeSans 288 0 0 0 VNB
+port 6 nsew ground bidirectional
+<< properties >>
+string FIXED_BBOX 0 -36 576 612
+<< end >>

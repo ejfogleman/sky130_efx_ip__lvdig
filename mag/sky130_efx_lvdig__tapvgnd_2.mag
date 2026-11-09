@@ -1,0 +1,75 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1794067054
+<< checkpaint >>
+rect -1860 -1860 2860 2860
+<< nwell >>
+rect 0 288 216 684
+<< pwell >>
+rect 0 0 216 216
+<< psubdiff >>
+rect 36 156 180 180
+rect 36 24 55 156
+rect 161 24 180 156
+rect 36 0 180 24
+<< nsubdiff >>
+rect 36 480 180 504
+rect 36 348 55 480
+rect 161 348 180 480
+rect 36 324 180 348
+<< psubdiffcont >>
+rect 55 24 161 156
+<< nsubdiffcont >>
+rect 55 348 161 480
+<< locali >>
+rect 0 629 216 648
+rect 0 595 19 629
+rect 53 595 91 629
+rect 125 595 163 629
+rect 197 595 216 629
+rect 0 576 216 595
+rect 36 480 180 504
+rect 36 348 55 480
+rect 161 348 180 480
+rect 36 324 180 348
+rect 36 156 180 180
+rect 36 24 55 156
+rect 161 24 180 156
+rect 36 0 180 24
+rect 0 -19 216 0
+rect 0 -53 19 -19
+rect 53 -53 91 -19
+rect 125 -53 163 -19
+rect 197 -53 216 -19
+rect 0 -72 216 -53
+<< viali >>
+rect 19 595 53 629
+rect 91 595 125 629
+rect 163 595 197 629
+rect 19 -53 53 -19
+rect 91 -53 125 -19
+rect 163 -53 197 -19
+<< metal1 >>
+rect 0 629 216 684
+rect 0 595 19 629
+rect 53 595 91 629
+rect 125 595 163 629
+rect 197 595 216 629
+rect 0 540 216 595
+rect 0 -19 216 36
+rect 0 -53 19 -19
+rect 53 -53 91 -19
+rect 125 -53 163 -19
+rect 197 -53 216 -19
+rect 0 -108 216 -53
+<< labels >>
+flabel metal1 0 -72 72 0 0 FreeSans 288 0 0 0 VGND
+port 1 nsew ground bidirectional
+flabel metal1 0 576 72 648 0 FreeSans 288 0 0 0 VPWR
+port 2 nsew power bidirectional
+flabel locali 36 396 108 468 0 FreeSans 288 0 0 0 VPB
+port 3 nsew power bidirectional
+<< properties >>
+string FIXED_BBOX 0 -36 216 612
+<< end >>

@@ -1,25 +1,25 @@
-sky130_fd_sc_hd__a21o_1
-sky130_fd_sc_hd__and2_1
-sky130_fd_sc_hd__and2_2
-sky130_fd_sc_hd__and3_1
-sky130_fd_sc_hd__and4_2
-sky130_fd_sc_hd__buf_2
-sky130_fd_sc_hd__clkbuf_8
-sky130_fd_sc_hd__clkinv_1
-sky130_fd_sc_hd__clkinv_2
-sky130_fd_sc_hd__clkinv_8
-sky130_fd_sc_hd__dfrbp_2
-sky130_fd_sc_hd__dfrtp_2
-sky130_fd_sc_hd__dfxbp_2
-sky130_fd_sc_hd__dfxtp_2
-sky130_fd_sc_hd__dlygate4sd3_1
-sky130_fd_sc_hd__edfxbp_1
-sky130_fd_sc_hd__edfxtp_1
-sky130_fd_sc_hd__inv_1
-sky130_fd_sc_hd__inv_2
-sky130_fd_sc_hd__mux2_1
-sky130_fd_sc_hd__mux2_2
-sky130_fd_sc_hd__nand2_2
-sky130_fd_sc_hd__nor2_2
-sky130_fd_sc_hd__o21a_1
-sky130_fd_sc_hd__or2_1
+sky130_fd_sc_hd__a21o_1         2-input AND into first input of 2-input OR.
+sky130_fd_sc_hd__and2_1         2-input AND.
+sky130_fd_sc_hd__and2_2         2-input AND.
+sky130_fd_sc_hd__and3_1         3-input AND.
+sky130_fd_sc_hd__and4_2         4-input AND.
+sky130_fd_sc_hd__buf_2          Buffer.
+sky130_fd_sc_hd__clkbuf_8       Clock tree buffer.
+sky130_fd_sc_hd__clkinv_1       Clock tree inverter.
+sky130_fd_sc_hd__clkinv_2       Clock tree inverter.
+sky130_fd_sc_hd__clkinv_8       Clock tree inverter.
+sky130_fd_sc_hd__dfrbp_2        D flip-flop, inverted reset, complementary outputs.
+sky130_fd_sc_hd__dfrtp_2        D flip-flop, inverted reset, single output.
+sky130_fd_sc_hd__dfxbp_2        D flip-flop, complementary outputs.
+sky130_fd_sc_hd__dfxtp_2        D flip-flop, single output.
+sky130_fd_sc_hd__dlygate4sd3_1  Delay Buffer 4-stage 0.50um length inner stage gates.
+sky130_fd_sc_hd__edfxbp_1       D flip-flop with loopback enable, non-inverted clock, complementary outputs.
+sky130_fd_sc_hd__edfxtp_1       D flip-flop with loopback enable, non-inverted clock, single output.
+sky130_fd_sc_hd__inv_1          Inverter.
+sky130_fd_sc_hd__inv_2          Inverter.
+sky130_fd_sc_hd__mux2_1         2-input multiplexer.
+sky130_fd_sc_hd__mux2_2         2-input multiplexer.
+sky130_fd_sc_hd__nand2_2        2-input NAND.
+sky130_fd_sc_hd__nor2_2         2-input NOR.
+sky130_fd_sc_hd__o21a_1         2-input OR into first input of 2-input AND.
+sky130_fd_sc_hd__or2_1          2-input OR.

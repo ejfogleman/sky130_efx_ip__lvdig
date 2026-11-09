@@ -1,0 +1,100 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1794175107
+<< checkpaint >>
+rect -1260 -1368 1476 1944
+<< nwell >>
+rect 0 288 216 684
+<< pwell >>
+rect 0 0 216 216
+<< poly >>
+rect 63 557 153 576
+rect 63 523 91 557
+rect 125 523 153 557
+rect 63 504 153 523
+rect 63 377 153 396
+rect 63 343 91 377
+rect 125 343 153 377
+rect 63 324 153 343
+rect 63 233 153 252
+rect 63 199 91 233
+rect 125 199 153 233
+rect 63 180 153 199
+rect 63 53 153 72
+rect 63 19 91 53
+rect 125 19 153 53
+rect 63 0 153 19
+<< polycont >>
+rect 91 523 125 557
+rect 91 343 125 377
+rect 91 199 125 233
+rect 91 19 125 53
+<< rmp >>
+rect 63 396 153 504
+rect 63 72 153 180
+<< locali >>
+rect 0 629 216 648
+rect 0 595 19 629
+rect 53 595 91 629
+rect 125 595 163 629
+rect 197 595 216 629
+rect 0 576 216 595
+rect 72 557 144 576
+rect 72 523 91 557
+rect 125 523 144 557
+rect 72 504 144 523
+rect 72 377 144 396
+rect 72 343 91 377
+rect 125 343 144 377
+rect 72 324 144 343
+rect 72 233 144 252
+rect 72 199 91 233
+rect 125 199 144 233
+rect 72 180 144 199
+rect 72 53 144 72
+rect 72 19 91 53
+rect 125 19 144 53
+rect 72 0 144 19
+rect 0 -19 216 0
+rect 0 -53 19 -19
+rect 53 -53 91 -19
+rect 125 -53 163 -19
+rect 197 -53 216 -19
+rect 0 -72 216 -53
+<< viali >>
+rect 19 595 53 629
+rect 91 595 125 629
+rect 163 595 197 629
+rect 19 -53 53 -19
+rect 91 -53 125 -19
+rect 163 -53 197 -19
+<< metal1 >>
+rect 0 629 216 684
+rect 0 595 19 629
+rect 53 595 91 629
+rect 125 595 163 629
+rect 197 595 216 629
+rect 0 540 216 595
+rect 0 -19 216 36
+rect 0 -53 19 -19
+rect 53 -53 91 -19
+rect 125 -53 163 -19
+rect 197 -53 216 -19
+rect 0 -108 216 -53
+<< labels >>
+flabel locali 72 180 144 252 0 FreeSans 288 0 0 0 LO
+port 1 nsew signal output
+flabel locali 72 324 144 396 0 FreeSans 288 0 0 0 HI
+port 2 nsew signal output
+flabel metal1 0 -72 72 0 0 FreeSans 288 0 0 0 VGND
+port 3 nsew ground bidirectional
+flabel metal1 0 576 72 648 0 FreeSans 288 0 0 0 VPWR
+port 4 nsew power bidirectional
+flabel nwell 0 540 36 576 0 FreeSans 288 0 0 0 VPB
+port 5 nsew power bidirectional
+flabel pwell 0 0 36 36 0 FreeSans 288 0 0 0 VNB
+port 6 nsew ground bidirectional
+<< properties >>
+string FIXED_BBOX 0 -36 216 612
+<< end >>

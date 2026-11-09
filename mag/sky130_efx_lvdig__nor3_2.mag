@@ -1,0 +1,178 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1794083915
+<< checkpaint >>
+rect -1260 -1368 2196 1944
+<< nwell >>
+rect 0 288 936 684
+<< pwell >>
+rect 0 0 936 216
+<< poly >>
+rect 36 269 252 288
+rect 36 235 55 269
+rect 89 235 252 269
+rect 36 216 252 235
+rect 324 269 468 288
+rect 324 235 379 269
+rect 413 235 468 269
+rect 324 216 468 235
+rect 612 269 828 288
+rect 612 235 631 269
+rect 665 235 828 269
+rect 612 216 828 235
+<< polycont >>
+rect 55 235 89 269
+rect 379 235 413 269
+rect 631 235 665 269
+<< locali >>
+rect 0 629 936 648
+rect 0 595 19 629
+rect 53 595 91 629
+rect 125 595 163 629
+rect 197 595 235 629
+rect 269 595 307 629
+rect 341 595 379 629
+rect 413 595 451 629
+rect 485 595 523 629
+rect 557 595 595 629
+rect 629 595 667 629
+rect 701 595 739 629
+rect 773 595 811 629
+rect 845 595 883 629
+rect 917 595 936 629
+rect 0 576 936 595
+rect 144 504 216 576
+rect 360 468 900 540
+rect 36 324 540 396
+rect 36 269 108 288
+rect 36 235 55 269
+rect 89 235 108 269
+rect 36 216 108 235
+rect 360 269 432 288
+rect 360 235 379 269
+rect 413 235 432 269
+rect 360 216 432 235
+rect 612 269 684 288
+rect 612 235 631 269
+rect 665 235 684 269
+rect 612 216 684 235
+rect 720 180 792 396
+rect 144 144 792 180
+rect 36 0 108 72
+rect 252 0 324 72
+rect 468 0 540 72
+rect 612 0 684 72
+rect 828 0 900 72
+rect 0 -19 936 0
+rect 0 -53 19 -19
+rect 53 -53 91 -19
+rect 125 -53 163 -19
+rect 197 -53 235 -19
+rect 269 -53 307 -19
+rect 341 -53 379 -19
+rect 413 -53 451 -19
+rect 485 -53 523 -19
+rect 557 -53 595 -19
+rect 629 -53 667 -19
+rect 701 -53 739 -19
+rect 773 -53 811 -19
+rect 845 -53 883 -19
+rect 917 -53 936 -19
+rect 0 -72 936 -53
+<< viali >>
+rect 19 595 53 629
+rect 91 595 125 629
+rect 163 595 197 629
+rect 235 595 269 629
+rect 307 595 341 629
+rect 379 595 413 629
+rect 451 595 485 629
+rect 523 595 557 629
+rect 595 595 629 629
+rect 667 595 701 629
+rect 739 595 773 629
+rect 811 595 845 629
+rect 883 595 917 629
+rect 19 -53 53 -19
+rect 91 -53 125 -19
+rect 163 -53 197 -19
+rect 235 -53 269 -19
+rect 307 -53 341 -19
+rect 379 -53 413 -19
+rect 451 -53 485 -19
+rect 523 -53 557 -19
+rect 595 -53 629 -19
+rect 667 -53 701 -19
+rect 739 -53 773 -19
+rect 811 -53 845 -19
+rect 883 -53 917 -19
+<< metal1 >>
+rect 0 629 936 684
+rect 0 595 19 629
+rect 53 595 91 629
+rect 125 595 163 629
+rect 197 595 235 629
+rect 269 595 307 629
+rect 341 595 379 629
+rect 413 595 451 629
+rect 485 595 523 629
+rect 557 595 595 629
+rect 629 595 667 629
+rect 701 595 739 629
+rect 773 595 811 629
+rect 845 595 883 629
+rect 917 595 936 629
+rect 0 540 936 595
+rect 0 -19 936 36
+rect 0 -53 19 -19
+rect 53 -53 91 -19
+rect 125 -53 163 -19
+rect 197 -53 235 -19
+rect 269 -53 307 -19
+rect 341 -53 379 -19
+rect 413 -53 451 -19
+rect 485 -53 523 -19
+rect 557 -53 595 -19
+rect 629 -53 667 -19
+rect 701 -53 739 -19
+rect 773 -53 811 -19
+rect 845 -53 883 -19
+rect 917 -53 936 -19
+rect 0 -108 936 -53
+use nmos_n3f5_f2_l150_bff  nmos_n3f5_f2_l150_bff_0
+timestamp 1794083915
+transform 1 0 648 0 1 36
+box -72 -36 288 180
+use nmos_n3f5_f4_l150_ffbfb  nmos_n3f5_f4_l150_ffbfb_0
+timestamp 1794083915
+transform 1 0 72 0 1 36
+box -72 -36 504 180
+use pmos_n6_f2_l150_hvt_fbf  pmos_n6_f2_l150_hvt_fbf_0
+timestamp 1794083915
+transform 1 0 648 0 1 324
+box -72 -36 288 252
+use pmos_n6_f4_l150_hvt_ftftb  pmos_n6_f4_l150_hvt_ftftb_0
+timestamp 1794083915
+transform 1 0 72 0 1 324
+box -72 -36 504 252
+<< labels >>
+flabel locali 36 216 108 288 0 FreeSans 288 0 0 0 A
+port 1 nsew signal input
+flabel locali 360 216 432 288 0 FreeSans 288 0 0 0 B
+port 2 nsew signal input
+flabel locali 612 216 684 288 0 FreeSans 288 0 0 0 C
+port 3 nsew signal input
+flabel locali 720 216 792 288 0 FreeSans 288 0 0 0 Y
+port 4 nsew signal output
+flabel metal1 0 -72 72 0 0 FreeSans 288 0 0 0 VGND
+port 5 nsew ground bidirectional
+flabel metal1 0 576 72 648 0 FreeSans 288 0 0 0 VPWR
+port 6 nsew power bidirectional
+flabel nwell 0 540 36 576 0 FreeSans 288 0 0 0 VPB
+port 7 nsew power bidirectional
+flabel pwell 0 0 36 36 0 FreeSans 288 0 0 0 VNB
+port 8 nsew ground bidirectional
+<< properties >>
+string FIXED_BBOX 0 -36 936 612
+<< end >>

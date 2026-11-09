@@ -15,9 +15,12 @@
 # _defaults, _convert, _dialog, _check and _draw. The "efx" menu in the layout
 # window places them, and its "lambda grid + snap" entry sets an L grid.
 # efx::subring_draw and efx::nwring_draw paint a p-tap, or n-well and n-tap,
-# guard ring around the box, and efx::polycont_draw, efx::mcon_draw and
-# efx::via1_draw a poly contact, li-met1 contact or met1-met2 via filling it
-# (not gencells).
+# guard ring around the box, and efx::polycont_draw, efx::ndiffc_draw,
+# efx::pdiffc_draw, efx::psubdiffc_draw, efx::nsubdiffc_draw, efx::mcon_draw
+# and efx::via1_draw a poly contact, n or p diffusion contact, p or n tap
+# contact, li-met1 contact or met1-met2 via filling it (not gencells). 
+# efx::fixed_bbox ("fixed bbox from box") sets the edit cell's
+# FIXED_BBOX, its abutment outline, from the box on the L grid.
 
 global Opts
 namespace eval efx {
@@ -27,6 +30,7 @@ namespace eval efx {
     variable licon 0.17	;# licon width (licon.1)
     variable poly_min 0.15	;# poly width (poly.1a), the shortest gate
     variable licon_gate 0.055	;# diffusion licon to gate (licon.11)
+    variable tap_enc 0.12	;# tap past a licon in one direction (licon.7)
     # via1 contact area inset: via.5a / met2.5 0.085 less the 0.055 met1
     # border Magic's via1 type keeps round its cuts (squares-grid 55)
     variable via1_in 0.03
@@ -45,15 +49,22 @@ proc efx::addtechmenu {framename} {
     }
     magic::add_toolkit_menu $layoutframe "efx" efx
     magic::add_toolkit_command $layoutframe "lambda grid + snap" "efx::lambda_grid" efx
+    magic::add_toolkit_command $layoutframe "fixed bbox from box" "efx::fixed_bbox" efx
     magic::add_toolkit_separator $layoutframe efx
     magic::add_toolkit_command $layoutframe "nmos (lambda)" "magic::gencell efx::nmos" efx
     magic::add_toolkit_command $layoutframe "pmos (lambda)" "magic::gencell efx::pmos" efx
     magic::add_toolkit_command $layoutframe "ppolyres (lambda)" "magic::gencell efx::ppolyres" efx
     magic::add_toolkit_command $layoutframe "xpolyres (lambda)" "magic::gencell efx::xpolyres" efx
     magic::add_toolkit_command $layoutframe "mimcap (lambda)" "magic::gencell efx::mimcap" efx
+    magic::add_toolkit_separator $layoutframe efx
     magic::add_toolkit_command $layoutframe "substrate guard ring (1.8V)" "efx::subring_draw" efx
     magic::add_toolkit_command $layoutframe "n-well guard ring (1.8V)" "efx::nwring_draw" efx
+    magic::add_toolkit_separator $layoutframe efx
     magic::add_toolkit_command $layoutframe "polycont" "efx::polycont_draw" efx
+    magic::add_toolkit_command $layoutframe "ndiffc (ndiff-li)" "efx::ndiffc_draw" efx
+    magic::add_toolkit_command $layoutframe "pdiffc (pdiff-li)" "efx::pdiffc_draw" efx
+    magic::add_toolkit_command $layoutframe "psubdiffc (p-tap-li)" "efx::psubdiffc_draw" efx
+    magic::add_toolkit_command $layoutframe "nsubdiffc (n-tap-li)" "efx::nsubdiffc_draw" efx
     magic::add_toolkit_command $layoutframe "mcon (li-met1)" "efx::mcon_draw" efx
     magic::add_toolkit_command $layoutframe "via1 (met1-met2)" "efx::via1_draw" efx
     magic::add_toolkit_separator $layoutframe efx
@@ -200,6 +211,21 @@ proc efx::pin {name x y {layer li}} {
     select clear
 }
 
+# 1 if the edit cell has paint of type layer under the box (a point box
+# counts the paint touching it). Leaves the selection cleared.
+proc efx::paint_at_box {layer} {
+    lassign [box values] x0 y0 x1 y1
+    pushbox
+    # box values reads internal units but takes bare numbers as lambda: say "i"
+    box values [expr {$x0 - 1}]i [expr {$y0 - 1}]i [expr {$x1 + 1}]i [expr {$y1 + 1}]i
+    select clear
+    select area $layer
+    set found [expr {[lindex [what -list] 0] ne {}}]
+    select clear
+    popbox
+    return $found
+}
+
 # Index of the edit cell's port called name, or "" if there is none. "port
 # <name> index" reads the selected label, not the name, so look it up. Needs a
 # selection command first: after a bare "load", "port first" returns "".
@@ -217,6 +243,9 @@ proc efx::port_index {name} {
 # is Magic's unscaled text, size then ignored (the dialog starts at FreeSans,
 # size L). index "" reuses the index of a port with the same name, else takes
 # the next free one. class / use "default" leave the port's.
+# layer nwell / pwell names a well's node, e.g. VPB / VNB in a cell with no
+# taps of its own (the tap cell beside it connects them). Magic counts pwell
+# as substrate, so a pwell label names the substrate node (otherwise VSUBS).
 proc efx::pin_place {name layer sticky font size just index class use} {
     if {$name eq {}} {
         puts stderr "efx: pin needs a name"
@@ -262,6 +291,9 @@ proc efx::pin_place {name layer sticky font size just index class use} {
     select area label
     if {[lindex [setlabel layer] 0] eq "space"} {
         puts stderr "efx: no paint under pin $name; it connects to nothing"
+    } elseif {$layer ne "default" && ![efx::paint_at_box $layer]} {
+        # a sticky label keeps its layer even with none of it under the box
+        puts stderr "efx: no $layer under pin $name; it connects to nothing"
     }
     if {$index eq {}} {port make} else {port make $index}
     if {$class ne "default"} {port class $class}
@@ -292,7 +324,7 @@ proc efx::pin_dialog {} {
         incr row
     }
     foreach {key text values} [list \
-        layer "Attach to layer" {default li m1 m2 m3 m4 m5} \
+        layer "Attach to layer" {default li m1 m2 m3 m4 m5 nwell pwell} \
         font "Font" [concat default [setlabel fontlist]] \
         just "Justification" {center N NE E SE S SW W NW} \
         class "Port class" {default input output inout tristate feedthrough} \
@@ -427,9 +459,9 @@ proc efx::mos_check {nmos parameters} {
     set tgate [dict get $parameters tgate]
     set bgate [dict get $parameters bgate]
 
-    if {![string is double -strict $n] || $n != round($n) || $n < 5} {
-        set n [expr {[string is double -strict $n] ? max(5, round($n)) : 9}]
-        puts stderr "efx: W = n*L needs a whole n >= 5; using n = $n"
+    if {![string is double -strict $n] || $n != round($n) || $n < 3} {
+        set n [expr {[string is double -strict $n] ? max(3, round($n)) : 5}]
+        puts stderr "efx: W = n*L needs a whole n >= 3; using n = $n"
     }
     if {![string is double -strict $fingers] || $fingers != round($fingers) || $fingers < 1} {
         set fingers [expr {[string is double -strict $fingers] ? max(1, round($fingers)) : 1}]
@@ -502,7 +534,7 @@ proc efx::mos_convert {parameters} {
 # Parameter window. W and the S/D pitch follow from n and length (shown as text).
 proc efx::mos_dialog {nmos parameters} {
     variable L
-    magic::add_entry n "W / L  (W = n x $L um, n >= 5)" $parameters
+    magic::add_entry n "W / L  (W = n x $L um, n >= 3)" $parameters
     magic::add_entry fingers "Fingers" $parameters
     magic::add_entry length "Gate length (um, >= 0.15)" $parameters
     # Not last: gencell_getparams reads the widgets newest first and fails
@@ -518,8 +550,8 @@ proc efx::mos_dialog {nmos parameters} {
 }
 
 # Defaults as efx_primitives.nmos()/pmos()
-proc efx::nmos_defaults {} {return {n 9 fingers 2 length 0.18 butted 0 ltap 1 rtap 1 vt std tgate 1 bgate 0}}
-proc efx::pmos_defaults {} {return {n 9 fingers 2 length 0.18 butted 0 ltap 1 rtap 1 vt std tgate 0 bgate 1}}
+proc efx::nmos_defaults {} {return {n 5 fingers 2 length 0.18 butted 0 ltap 1 rtap 1 vt std tgate 1 bgate 0}}
+proc efx::pmos_defaults {} {return {n 5 fingers 2 length 0.18 butted 0 ltap 1 rtap 1 vt std tgate 0 bgate 1}}
 
 proc efx::nmos_convert {parameters} {return [efx::mos_convert $parameters]}
 proc efx::pmos_convert {parameters} {return [efx::mos_convert $parameters]}
@@ -725,6 +757,27 @@ proc efx::lambda_box {} {
     return [list $x0 $y0 $x1 $y1]
 }
 
+# Fixed bounding box of the edit cell: the box, each edge grown out to the L
+# grid, becomes the cell's FIXED_BBOX property, as in the sky130_fd_sc_hd
+# cells. Magic then draws an instance's outline from it and places an instance
+# by it (its lower-left corner on the box), so cells abut box to box; paint
+# may hang over it (shared rails, n-well). The property applies to the edit
+# cell even when an instance is selected. Set from [box values], so it is in
+# Magic's internal units, which Magic rescales on save.
+proc efx::fixed_bbox {} {
+    # check before snapping: lambda_box grows a zero-size box to one L square
+    lassign [box values] bx0 by0 bx1 by1
+    if {$bx1 <= $bx0 || $by1 <= $by0} {
+        puts stderr "efx: the box has no area; FIXED_BBOX not set"
+        return
+    }
+    lassign [efx::lambda_box] x0 y0 x1 y1
+    box ${x0}um ${y0}um ${x1}um ${y1}um
+    property FIXED_BBOX [box values]
+    puts stdout [format "efx: FIXED_BBOX of %s: (%.3f %.3f) (%.3f %.3f) um" \
+        [cellname list self] $x0 $y0 $x1 $y1]
+}
+
 proc efx::ring_draw {dtype ctype well} {
     variable L
     variable licon
@@ -779,6 +832,54 @@ proc efx::polycont_draw {} {
     rect poly $x0 $y0 $x1 $y1
     rect li $x0 $y0 $x1 $y1
     rect pc [expr {$x0 + $in}] [expr {$y0 + $in}] [expr {$x1 - $in}] [expr {$y1 - $in}]
+    popbox
+    tech revert
+    resumeall
+}
+
+# Diffusion contact filling the box, as efx::polycont_draw with ndiff or pdiff
+# in place of poly: diffusion and li flush with the box, and one ndc / pdc
+# contact area inset (2L - licon)/2 all round, which Magic fills with licons
+# (0.095 > licon.5a / licon.5c 0.04 / 0.06). The box is grown out to the L
+# grid; at least 2L x 2L. Magic generates the implant; no n-well is painted,
+# so a pdiffc needs one from its surroundings (diff/tap.8, L). Paint in the
+# edit cell, not a gencell, with no label. As efx_primitives.ndiffc() / pdiffc().
+proc efx::ndiffc_draw {} {diffc_draw ndiff ndc}
+proc efx::pdiffc_draw {} {diffc_draw pdiff pdc}
+# Tap contacts, the same with p-tap (psubdiff) or n-tap (nsubdiff), as one
+# side of the guard rings. No well: an nsubdiffc needs an n-well from its
+# surroundings, L past it (diff/tap.10). As efx_primitives.psubdiffc() / nsubdiffc().
+# At least 2L x 3L (either way round): a tap must enclose its licon by 0.12 in
+# one direction (licon.7), and Magic checks that on the contact area, not the
+# cuts. So the area is inset tap_enc (0.12) at the ends of the longer side
+# (y when square) and (2L - licon)/2 (0.095) across it.
+proc efx::psubdiffc_draw {} {diffc_draw psd psc 3}
+proc efx::nsubdiffc_draw {} {diffc_draw nsd nsc 3}
+
+# long: the longer side's minimum in L (2, or 3 for a tap, whose contact area
+# is then inset tap_enc along that side)
+proc efx::diffc_draw {dtype ctype {long 2}} {
+    variable L
+    variable licon
+    variable tap_enc
+    lassign [lambda_box] x0 y0 x1 y1
+    set short [expr {min($x1 - $x0, $y1 - $y0)}]
+    if {$short < 2 * $L - 1e-6 || max($x1 - $x0, $y1 - $y0) < $long * $L - 1e-6} {
+        puts stderr "efx: $ctype must be at least 2L x ${long}L ([expr {2 * $L}] x [expr {$long * $L}]um), for a licon"
+        return
+    }
+    set in [expr {(2 * $L - $licon) / 2.0}]
+    set ix $in
+    set iy $in
+    if {$long > 2} {
+        if {$y1 - $y0 >= $x1 - $x0 - 1e-6} {set iy $tap_enc} else {set ix $tap_enc}
+    }
+    suspendall
+    tech unlock *
+    pushbox
+    rect $dtype $x0 $y0 $x1 $y1
+    rect li $x0 $y0 $x1 $y1
+    rect $ctype [expr {$x0 + $ix}] [expr {$y0 + $iy}] [expr {$x1 - $ix}] [expr {$y1 - $iy}]
     popbox
     tech revert
     resumeall

@@ -1,0 +1,43 @@
+sky130_efx_ip__lvdig
+Copyright (c) 2026 Eric Fogleman
+
+This repository is licensed under the Apache License 2.0 (LICENSE), except
+files with an SPDX-License-Identifier: MPL-2.0 header (LICENSE-MPL-2.0).
+
+The sky130_efx_lvdig standard cells are an independent re-implementation of
+cells from the SkyWater SKY130 high-density standard cell library. It includes
+or is derived from the third-party work below, all under the Apache License 2.0.
+
+1. SkyWater sky130_fd_sc_hd standard cell library
+   Copyright 2020 The SkyWater PDK Authors
+   https://github.com/google/skywater-pdk-libs-sky130_fd_sc_hd
+   Used: the cells' names and functions, pin names, and transistor-level
+   netlists (as installed by open_pdks in
+   libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice).
+   Derived from them: the schematics (xschem/sky130_efx_lvdig__*.sch), written
+   from those netlists' topology, series order and device sizes, with widths
+   (and conb_1's resistor lengths) snapped to the lambda grid, and the library
+   netlists built from the schematics and layouts (cdl/, spice/).
+   Not used: the layouts in mag/ were drawn independently on the efx lambda
+   grid, with no hd layout geometry.
+
+2. xschem_sky130 symbol library (sky130_stdcells)
+   Copyright 2022 Stefan Frederik Schippers
+   https://github.com/StefanSchippers/xschem_sky130
+   The cell symbols xschem/sky130_efx_lvdig__*.sym are modified copies of
+   libs.tech/xschem/sky130_stdcells/<cell>.sym (they describe the
+   sky130_fd_sc_hd cell interfaces). Each keeps its original copyright and
+   license header and carries a note of the changes.
+
+3. SkyWater SKY130 PDK documentation
+   Copyright The SkyWater PDK Authors
+   https://github.com/google/skywater-pdk (documentation sources)
+   doc/cells_skywater.md is a copy of the documentation's list of cells in
+   sky130_fd_sc_hd, taken from an unofficial build of that documentation:
+   https://sky130-unofficial.readthedocs.io/en/latest/contents/libraries/sky130_fd_sc_hd/README.html
+   (the page states no license of its own). Converted to Markdown, with
+   "Delay flop" written "D flip-flop".
+
+SkyWater and SKY130 are names of SkyWater Technology. Their use here describes
+the process and the library the cells are based on, and implies no
+endorsement.

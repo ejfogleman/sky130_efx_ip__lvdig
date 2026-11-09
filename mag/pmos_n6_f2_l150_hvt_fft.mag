@@ -1,0 +1,47 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1794085212
+<< checkpaint >>
+rect -1332 -1296 1548 1512
+<< nwell >>
+rect -72 -36 288 252
+<< pmoshvt >>
+rect 39 0 69 216
+rect 147 0 177 216
+<< pdiff >>
+rect -36 180 39 216
+rect -36 36 -17 180
+rect 17 36 39 180
+rect -36 0 39 36
+rect 69 180 147 216
+rect 69 36 91 180
+rect 125 36 147 180
+rect 69 0 147 36
+rect 177 197 252 216
+rect 177 163 199 197
+rect 233 163 252 197
+rect 177 0 252 163
+<< pdiffc >>
+rect -17 36 17 180
+rect 91 36 125 180
+rect 199 163 233 197
+<< poly >>
+rect 39 216 69 252
+rect 147 216 177 252
+rect 39 -36 69 0
+rect 147 -36 177 0
+<< locali >>
+rect -36 180 36 216
+rect -36 36 -17 180
+rect 17 36 36 180
+rect -36 0 36 36
+rect 72 180 144 216
+rect 72 36 91 180
+rect 125 36 144 180
+rect 180 197 252 216
+rect 180 163 199 197
+rect 233 163 252 197
+rect 180 144 252 163
+rect 72 0 144 36
+<< end >>

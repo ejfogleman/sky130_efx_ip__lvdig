@@ -7,6 +7,37 @@ if {![info exists PDK]} {
     source $env(PDK_ROOT)/$env(PDK)/libs.tech/xschem/xschemrc
 }
 
+# Device size check (the symbols' drc property): the PDK's fet_drc matches
+# models with "[np]fet_01v8$", so special_nfet_01v8 gets nfet_01v8's 0.42 um
+# minimum width and its W=0.36 transistors (as in the hd flops) are flagged.
+# special_nfet_01v8 is the narrow nfet: its models cover only W 0.36-0.42 um,
+# L 0.15-0.18 um (libs.ref/sky130_fd_pr/spice/
+# sky130_fd_pr__special_nfet_01v8__tt.pm3.spice), so check it against that
+# range; every other model goes to the PDK's check. Renamed once only, as a
+# parent's xschemrc may already have done it.
+if {[info procs fet_drc] ne {} && [info procs fet_drc_pdk] eq {}} {
+    rename fet_drc fet_drc_pdk
+    proc fet_drc {instance symbol model w l {nf 1}} {
+        if {![regexp {special_nfet_01v8$} $model]} {
+            return [fet_drc_pdk $instance $symbol $model $w $l $nf]
+        }
+        set res {}
+        if {[string is double $w] && [string is double $l] && [string is integer $nf]} {
+            # per-finger width, except for the *_nf symbols (as the PDK does)
+            if {![regexp {fet.*_nf\.sym$} $symbol]} {
+                set w [expr {double($w) / double($nf)}]
+            }
+            if {$w < 0.36 || $w > 0.42} {
+                append res "${instance} ($model): finger width outside 0.36-0.42, w / nf = $w" \n
+            }
+            if {$l < 0.15 || $l > 0.18} {
+                append res "${instance} ($model): length outside 0.15-0.18, l = $l" \n
+            }
+        }
+        return $res
+    }
+}
+
 # Add this directory to the xschem library path
 append XSCHEM_LIBRARY_PATH :[file dirname [info script]]
 

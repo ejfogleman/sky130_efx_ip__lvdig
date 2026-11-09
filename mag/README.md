@@ -1,6 +1,8 @@
 # The efx lambda methodology (Magic)
 
-How to lay out Sky130 analog cells by hand in Magic with the **efx** generators, on a lambda grid.
+(c) 2026 Eric Fogleman
+
+A methodology for drawing layout in Magic VLSI with the **efx** generators, on a lambda grid.
 
 - **L (lambda) = 0.18 µm**: the drawing unit. Every width, space and generator size is a whole multiple of L, chosen at or above the Sky130 minimums. So a layout drawn on the L grid is DRC-clean by construction, and its edges line up. This L is the project's unit, not Magic's internal "lambda".
 - **efx** is a set of Magic generators in `efx.tcl`, with an **efx** menu in every layout window:
@@ -99,12 +101,15 @@ Starting in `mag/` is the simplest habit.
 | Entry | What it makes | What the box means | Minimum | Kind |
 |---|---|---|---|---|
 | lambda grid + snap | grid L, snap to it | — | — | command |
-| nmos / pmos (lambda) | MOS transistor (section 5) | where it is placed | n ≥ 5 | gencell |
+| fixed bbox from box | the edit cell's `FIXED_BBOX` (below) | the outline, grown out to the L grid | non-zero area | command |
+| nmos / pmos (lambda) | MOS transistor (section 5) | where it is placed | n ≥ 3 | gencell |
 | ppolyres / xpolyres (lambda) | p+ poly resistor | where it is placed | nw ≥ 4 (5 for a lone resistor in KLayout) | gencell |
 | mimcap (lambda) | MiM capacitor, met3 / met4 | where it is placed | nw, nl ≥ 6 | gencell |
 | substrate guard ring (1.8V) | p-tap ring, 2L | the ring's **inner** edge | 3L × 3L inside | flat paint |
 | n-well guard ring (1.8V) | n-tap ring + n-well | the ring's **inner** edge | 3L × 3L inside | flat paint |
 | polycont | poly + li + licons | the **outer** edge | 2L × 2L | flat paint |
+| ndiffc / pdiffc | n+ / p+ diffusion + li + licons (no n-well) | the **outer** edge | 2L × 2L | flat paint |
+| psubdiffc / nsubdiffc | p-tap / n-tap + li + licons (no n-well) | the **outer** edge | 2L × 3L, either way | flat paint |
 | mcon (li-met1) | li + met1 + mcon | the **outer** edge | 2L × 2L | flat paint |
 | via1 (met1-met2) | met1 + met2 + via1 | the **outer** edge | 2L × 2L | flat paint |
 | pin ... | a label made a port (section 8) | where the pin goes | — | dialog |
@@ -119,6 +124,11 @@ Starting in `mag/` is the simplest habit.
 - A box below the minimum is refused.
 - It can't be re-edited: erase it and redraw.
 
+**Fixed bbox:** the cell's abutment outline, as in the `sky130_fd_sc_hd` standard cells.
+- Magic draws an instance's outline from it and places an instance by it, its lower-left corner on the box. Cells then abut box to box, and paint may hang over the outline (shared rails, n-well).
+- It applies to the edit cell, even when an instance is selected. Save the cell to keep it.
+- `property FIXED_BBOX` prints it, in Magic's internal units (0.005 µm here).
+
 **efx contacts fill the box.** Both metals are flush with the box and the cuts sit inside it, so every metal edge stays on the L grid. The PDK's own vias (Devices 1 menu) do the opposite: they paint the contact on the box and grow the metal past it, off the grid.
 
 ## 5. The generators
@@ -127,7 +137,7 @@ Starting in `mag/` is the simplest habit.
 
 | Parameter | Default | Meaning |
 |---|---|---|
-| `n` | 9 | W = n·L per finger, n ≥ 5 (W ≥ 0.90) |
+| `n` | 5 | W = n·L per finger, n ≥ 3 (W ≥ 0.54) |
 | `fingers` | 2 | number of gates |
 | `length` | 0.18 | gate length in µm: ≥ 0.15 (poly.1a), on a 0.01 grid |
 | `butted` | off | taps butted against the outer sources (source = body); even finger counts only |
@@ -156,9 +166,9 @@ Starting in `mag/` is the simplest habit.
 
 **Licons per S/D column and tap:** `floor((n − 1) / 2)`.
 
-| n | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 |
-|---|---|---|---|---|---|---|---|---|---|---|
-| licons | 2 | 2 | 3 | 3 | 4 | 4 | 5 | 5 | 6 | 6 |
+| n | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| licons | 1 | 1 | 2 | 2 | 3 | 3 | 4 | 4 | 5 | 5 | 6 | 6 |
 
 **Pins:**
 - `S0 D0 S1 D1 …` on the S/D columns. Sources and drains are not joined; wire them in the parent.
@@ -232,16 +242,19 @@ Starting in `mag/` is the simplest habit.
 
 **Voltage:** 1.8 V only, using `psd`/`psc` and `nsd`/`nsc`, not the 5 V types.
 
-### Contacts: polycont, mcon, via1
+### Contacts: polycont, ndiffc/pdiffc, psubdiffc/nsubdiffc, mcon, via1
 
-All three: the box is the outer edge, at least 2L × 2L, flat paint, no label.
+All of them: the box is the outer edge, at least 2L × 2L (2L × 3L for the tap contacts), flat paint, no label.
 
-| | polycont | mcon (li–met1) | via1 (met1–met2) |
-|---|---|---|---|
-| Metals | poly + li1, flush | li1 + met1, flush | met1 + met2, flush |
-| Cut | licon 0.17, 0.34 pitch | mcon 0.17, 0.36 pitch | via 0.15, 0.32 pitch |
-| Cuts inset from the box | (2L − 0.17)/2 = 0.095 | L/2 = 0.09 | 0.085 |
-| Cuts in 2L × 2L / 10L × 3L / 6L × 6L | 1 / 5 / 3 × 3 | 1 / 5 / 3 × 3 | 1 / 5 / 3 × 3 |
+| | polycont | ndiffc / pdiffc | mcon (li–met1) | via1 (met1–met2) |
+|---|---|---|---|---|
+| Metals | poly + li1, flush | ndiff / pdiff + li1, flush | li1 + met1, flush | met1 + met2, flush |
+| Cut | licon 0.17, 0.34 pitch | licon 0.17, 0.34 pitch | mcon 0.17, 0.36 pitch | via 0.15, 0.32 pitch |
+| Cuts inset from the box | (2L − 0.17)/2 = 0.095 | 0.095 | L/2 = 0.09 | 0.085 |
+| Cuts in 2L × 2L / 10L × 3L / 6L × 6L | 1 / 5 / 3 × 3 | the same as polycont | 1 / 5 / 3 × 3 | 1 / 5 / 3 × 3 |
+
+- **ndiffc / pdiffc** paint no well, and Magic generates the implant. A pdiffc must sit in an n-well, at least L inside it (diff/tap.8). A lone one gives LU.2 / LU.3 in Magic until a tap is near, like any diffusion.
+- **psubdiffc / nsubdiffc** (p-tap and n-tap, Magic `psd`/`psc`, `nsd`/`nsc`) are the same on tap, with the same cuts. They need **2L × 3L**, either way round: a tap must enclose its licon by 0.12 in one direction (licon.7), and 2L gives only 0.095. No well is painted: an nsubdiffc must sit in an n-well, at least L inside it (diff/tap.10).
 
 - Magic measures enclosure from the contact *type*, not the cut. That's why the contact areas are inset rather than flush with the box.
 - **via2 and via3 are not in the menu.** A centred 0.2 cut in 2L × 2L misses via2.4a / via3.5 by 0.005 / 0.01; 2L × 3L would work. Until they exist, use the PDK's Devices 1 vias, which put the metal off the L grid.
@@ -281,7 +294,7 @@ All three: the box is the outer edge, at least 2L × 2L, flat paint, no label.
 | Name | — | |
 | Size | L | text height, used with a named font |
 | Port index | blank | blank reuses the number of a port with the same name, or takes the next free one |
-| Attach to layer | m1 | "default" lets Magic pick the type under the box |
+| Attach to layer | m1 | li, m1 … m5, nwell, pwell; "default" lets Magic pick the type under the box |
 | sticky | off | keeps the label on that layer when the paint under it changes |
 | Font | FreeSans | "default" is Magic's unscaled text |
 | Justification | center | |
@@ -303,7 +316,8 @@ All three: the box is the outer edge, at least 2L × 2L, flat paint, no label.
 - **Class and use** go only to the `.mag` file and LEF (`DIRECTION`, `USE`). Set `power` / `ground` on supplies if the cell may become a macro.
 - **A pin connects only to paint in its own cell.** A top-cell label sitting on a gencell's li (e.g. a gate bar) extracts as a disconnected node. Put some of the top cell's own paint under it, e.g. `findlabel inp; paint li`, or the route that feeds it.
 - **Put pins on plain metal, not on a contact.** Magic attaches a label to the type under it, which on `viali`, `via1` or `pc` is the contact.
-- **What the dialog refuses:** a box that already holds a label (Magic's `port make` needs exactly one), and a port number already used by another name. It warns about a pin with no paint under it.
+- **What the dialog refuses:** a box that already holds a label (Magic's `port make` needs exactly one), and a port number already used by another name. It warns about a pin with no paint under it, or (for a chosen layer) none of that layer under it, which a sticky label would otherwise hide.
+- **Well pins (VPB / VNB)** in a cell with no taps of its own: put VPB on `nwell` and VNB on `pwell` (paint `pwell` over the nmos area for it to sit on). The well is the body node, so the label names it and makes it a port; Magic counts `pwell` as substrate, so without a VNB label the nfets' body extracts as `VSUBS`. The tap cell beside it connects them. Checked 2026-11-06: a pfet's body extracts as `VPB`, a special nfet's as `VNB`.
 
 ## 9. Checking: DRC, extraction, LVS
 

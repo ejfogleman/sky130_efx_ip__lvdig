@@ -1,0 +1,38 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1794006073
+<< nwell >>
+rect -72 -36 180 216
+<< pmoshvt >>
+rect 39 18 69 180
+<< pdiff >>
+rect -36 144 39 180
+rect -36 36 -17 144
+rect 17 36 39 144
+rect -36 18 39 36
+rect 69 144 144 180
+rect 69 36 91 144
+rect 125 36 144 144
+rect 69 18 144 36
+<< pdiffc >>
+rect -17 36 17 144
+rect 91 36 125 144
+<< poly >>
+rect 39 180 69 216
+rect 39 -36 69 18
+<< locali >>
+rect -36 144 36 180
+rect -36 36 -17 144
+rect 17 36 36 144
+rect -36 18 36 36
+rect 72 144 144 180
+rect 72 36 91 144
+rect 125 36 144 144
+rect 72 18 144 36
+<< labels >>
+rlabel locali 0 18 0 18 0 S0
+port 1 nsew
+rlabel locali 108 18 108 18 0 D0
+port 2 nsew
+<< end >>
