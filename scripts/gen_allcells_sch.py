@@ -11,6 +11,12 @@ VNB are one net (the substrate, VSUBS in the layout), and VPWR/VPB are one
 net per pair of rows that share a VPWR rail and n-well (VPWR_R01, VPWR_R23,
 ...), since nothing joins the row pairs.
 
+The cell symbols are primitives (as the PDK's hd cells; 2026-11-12), so the
+netlist holds only instance lines: a code block includes the cells' .subckt
+from the library's schematic netlist, $::LVDIG_CDL/sky130_efx_lvdig.cdl
+(make libcdl; LVDIG_CDL is set in xschem/xschemrc). place=header puts it
+before allcells' own .subckt, not inside it.
+
     python3 scripts/gen_allcells_sch.py
 """
 import re
@@ -40,7 +46,7 @@ for r, row in enumerate(rows):
         sym = ROOT / 'xschem' / f'{PREFIX}{c}.sym'
         inst = f'x{c}'
         out.append(f'C {{{sym.name}}} {x} {y} 0 0 {{name={inst} VGND=VGND VNB=VGND '
-                   f'VPB={vpwr} VPWR={vpwr} prefix={PREFIX}}}')
+                   f'VPB={vpwr} VPWR={vpwr}}}')
         n_inst += 1
         for m in PIN.finditer(sym.read_text()):
             x0, y0, x1, y1 = map(float, m.group(1, 2, 3, 4))
@@ -60,5 +66,8 @@ dst = ROOT / 'xschem' / f'{PREFIX}allcells.sch'
 out.append('C {copyright.sym} -200 -200 0 0 {name=s1 place=header value="'
            '* Copyright (c) 2026 Eric Fogleman\n* SPDX-License-Identifier: Apache-2.0\n'
            '* Derived from SkyWater sky130_fd_sc_hd (Apache-2.0); see NOTICE"}')
+# library cell definitions, included once (see the docstring)
+out.append('C {devices/code_shown.sym} -200 -400 0 0 {name=s2 only_toplevel=false place=header '
+           'format="tcleval( @value )" value=".include $::LVDIG_CDL/sky130_efx_lvdig.cdl"}')
 dst.write_text('\n'.join(out) + '\n')
 print(f'wrote {dst.relative_to(ROOT)}: {n_inst} cells, {n_lab} pin labels')

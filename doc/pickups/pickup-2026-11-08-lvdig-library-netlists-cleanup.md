@@ -84,7 +84,7 @@ Most recent first.
     - All 55 copied symbols (`xschem/sky130_efx_lvdig__*.sym`) have a "Modified for sky130_efx_lvdig" note below the original header, saying what changed.
     - The README has an Acknowledgements paragraph, and the `cdl/` and `spice/` headers cite NOTICE.
     - After the symbol edits: `check_sch.sh` 48 match (exit 0), and allcells LVS matches. All 7 tap symbols netlist correctly in a scratch schematic.
-  - **Library netlists are not tracked.**
+  - **Library netlists are not tracked.** (Superseded 2026-11-12: the user had them tracked; see CLAUDE.md.)
     - `cdl/*.cdl` is ignored, and the `!spice/*.spice` exception was removed, so `*.spice` ignores the extracted file.
     - `cdl/.gitkeep` and `spice/.gitkeep` keep the folders in a clone. Run `make libcdl libspice` after cloning.
   - **conb_1 resistor W stays 0.45** (settled).

@@ -15,17 +15,17 @@ v {xschem version=3.1.0 file_version=1.2
 *
 * Modified for sky130_efx_lvdig (2026, Eric Fogleman). Copied from the PDK's
 * libs.tech/xschem/sky130_stdcells/clkbuf_8.sym (xschem_sky130).
-* Changes: cell renamed sky130_efx_lvdig__clkbuf_8, type set to subcircuit
-* (with a format that descends into its schematic), prefix and
-* verilogprefix set to sky130_efx_lvdig__.
+* Changes: cell renamed sky130_efx_lvdig__clkbuf_8; netlisted by its full name
+* (format ends in @symname; prefix and verilogprefix removed). Still a
+* primitive, as the PDK's: the design includes the .subckt once, from
+* spice/ (layout-extracted) or cdl/ (schematic), e.g. $::LVDIG_SPICE.
 * See NOTICE.
 }
 G {}
-K {type=subcircuit
+K {type=primitive
 format="@name @pinlist @VGND @VNB @VPB @VPWR @symname"
-template="name=x1 VGND=VGND VNB=VNB VPB=VPB VPWR=VPWR prefix=sky130_efx_lvdig__ "
-extra="VGND VNB VPB VPWR prefix"
-verilogprefix=sky130_efx_lvdig__
+template="name=x1 VGND=VGND VNB=VNB VPB=VPB VPWR=VPWR "
+extra="VGND VNB VPB VPWR"
 highlight=true}
 V {}
 S {}

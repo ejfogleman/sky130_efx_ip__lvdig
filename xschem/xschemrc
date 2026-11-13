@@ -41,6 +41,17 @@ if {[info procs fet_drc] ne {} && [info procs fet_drc_pdk] eq {}} {
 # Add this directory to the xschem library path
 append XSCHEM_LIBRARY_PATH :[file dirname [info script]]
 
+# sky130_efx_lvdig library netlists, as the PDK's SKYWATER_STDCELLS: the cell
+# symbols are primitives, so a design includes the cells' .subckt once, in a
+# code block, e.g. (tcleval):
+#   .include $::LVDIG_SPICE/sky130_efx_lvdig_c.spice   (layout-extracted, C)
+#   .include $::LVDIG_SPICE/sky130_efx_lvdig_rc.spice  (R and C)
+#   .include $::LVDIG_SPICE/sky130_efx_lvdig.spice     (devices only)
+#   .include $::LVDIG_CDL/sky130_efx_lvdig.cdl         (schematic)
+# Absolute paths to this repo, also when it is a dependency (submodule).
+set LVDIG_SPICE [file normalize [file dirname [info script]]/../spice]
+set LVDIG_CDL   [file normalize [file dirname [info script]]/../cdl]
+
 # Load each dependency's own xschemrc (recursive: they do the same).
 # Dependencies are git submodules in ../dependencies/<ip_block>/.
 foreach rc [glob -nocomplain [file dirname [info script]]/../dependencies/*/xschem/xschemrc] {

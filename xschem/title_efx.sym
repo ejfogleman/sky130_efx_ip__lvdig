@@ -1,4 +1,8 @@
-v {xschem version=3.4.7 file_version=1.2}
+v {xschem version=3.4.7 file_version=1.2
+* efx schematic title block
+* Copyright (c) 2026 Eric Fogleman
+* SPDX-License-Identifier: Apache-2.0
+}
 G {}
 K {type=logo
 template="name=l1 author=\\"designer\\""

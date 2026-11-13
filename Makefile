@@ -11,6 +11,8 @@
 #                           netlist of the same cells with parasitic C
 #   make libspice PEX=none  spice/sky130_efx_lvdig.spice: devices only, as hd's spice/
 #   make libspice PEX=rc    spice/sky130_efx_lvdig_rc.spice: parasitic R and C
+#   make libnet             regenerate all four library netlists from scratch
+#                           (cdl, spice none/c/rc); run before committing
 #
 # Each netlist is remade only when a schematic/symbol (or, for the layout, a
 # .mag) in this repo or its dependencies is newer than it.
@@ -46,7 +48,7 @@ $(error PEX must be none, c or rc, not '$(PEX)')
 endif
 PEX_DIR := lvs/pex_$(PEX)
 
-.PHONY: sim lvs clean-lvs libcdl libspice
+.PHONY: sim lvs clean-lvs libcdl libspice libnet
 
 # Keep the netlists: make would otherwise delete them as intermediate files
 # of the lvs/%.out chain once the report is written
@@ -66,6 +68,10 @@ lvs/schematic/%.spice: xschem/%.sch $(SCH_FILES)
 	rm -f $@
 	-cd xschem && $(XSCHEM) --tcl 'set top_is_subckt 1' -o ../lvs/schematic $*.sch
 	@grep -qE '^\.subckt $*( |$$)' $@ || { echo "xschem wrote no .subckt $* to $@"; rm -f $@; exit 1; }
+
+# allcells' schematic netlist holds only instance lines (the cell symbols are
+# primitives) and includes the cells from the library's CDL
+lvs/schematic/sky130_efx_lvdig__allcells.spice: $(LIB_CDL)
 
 # LVS layout netlist: Magic in mag/ (reads ./.magicrc), .ext files to lvs/layout
 lvs/layout/%.spice: mag/%.mag $(MAG_FILES)
@@ -91,8 +97,9 @@ lvs: lvs/$(CELL).out
 	 else echo "LVS $(CELL): match"; fi
 endif
 
-# Library netlists (generated, not tracked; cdl/ and spice/ hold a .gitkeep),
-# joined by scripts/gen_lib_netlist.py.
+# Library netlists (generated and tracked in git, so regenerate and commit them
+# with any .sch/.sym/.mag change: make libnet), joined by
+# scripts/gen_lib_netlist.py.
 # Schematic (source) netlist: the cells' LVS schematic netlists (same xschem
 # settings, remade as above).
 libcdl: $(LIB_CDL)
@@ -134,6 +141,16 @@ lvs/pex_rc/%.spice: mag/%.mag $(MAG_FILES)
 	  'extresist tolerance 10' 'extresist cell $*_flat' 'extresist all' \
 	  $(PEX_OUT) 'ext2spice cthresh 0' 'ext2spice extresist on' $(PEX_END) \
 	  | $(MAGIC) >/dev/null
+
+# All four library netlists, rebuilt from scratch (-B): after a git checkout
+# or pull a stale netlist can be newer than its sources, so timestamps can't
+# be trusted. PEX is one value per make run, hence three sub-makes. Run before
+# committing. The c and rc netlists' R/C order varies from run to run (Magic),
+# so git diff shows reordered lines in them even when nothing changed.
+libnet:
+	$(MAKE) -B libcdl libspice PEX=none
+	$(MAKE) -B libspice PEX=c
+	$(MAKE) -B libspice PEX=rc
 
 clean-lvs:
 	rm -f lvs/*.out lvs/schematic/*.spice lvs/layout/*.spice lvs/layout/*.ext \

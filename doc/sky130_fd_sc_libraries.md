@@ -38,7 +38,7 @@ Read from each library's tech LEF (site size), cell LEF (`MACRO` count) and SPIC
 
 This part is general knowledge, not read from the PDK files. hd is the default library in OpenLane and the caravel flow. It has the most silicon use and the most community checking. The other libraries were released with less verification, and some cells have known LVS or characterisation issues.
 
-For the SAR and PLL logic, hd is the smallest library, it uses the same 1.8 V transistors as the analog blocks, and it is what `sky130_ejf_ip__sar_dev` and `sky130_ejf_ip__pll96` already use (`cells_sar_dev.txt`, `cells_pll96.txt`). hs or ms would only help if a timing path near 96 MHz is short of margin. hvl matters only for 5 V logic or level shifting into a 5 V domain.
+For the SAR and PLL logic, hd is the smallest library, it uses the same 1.8 V transistors as the analog blocks, and it is what `sky130_ejf_ip__sar_dev` and `sky130_efx_ip__pll96` already use (`cells_sar_dev.txt`, `cells_pll96.txt`). hs or ms would only help if a timing path near 96 MHz is short of margin. hvl matters only for 5 V logic or level shifting into a 5 V domain.
 
 ## Reproducing
 
