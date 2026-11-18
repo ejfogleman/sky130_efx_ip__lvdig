@@ -12,9 +12,10 @@ spice_none, spice_c, spice_rc: the layout-extracted netlist, as hd's spice/
        (devices only), or with parasitic C, or with parasitic R and C. Magic
        extracts a flattened copy of each cell (.subckt name <cell>_flat; the
        suffix is removed). Magic orders a cell's ports by its pin labels' port
-       numbers, so each .subckt line is rewritten to the cdl's port order (the
-       netlists are then interchangeable in a testbench); the port names must
-       be the same set.
+       numbers, which must give the cdl's port order (scripts/port_order.py
+       numbers them so); a cell out of order is an error, not rewritten, so
+       the layouts stay usable as black boxes in Netgen, which pairs their
+       pins by position (2026-11-17).
 
 Run by `make libcdl` / `make libspice [PEX=none|c|rc]`. Lines that depend on the checkout
 (`** sch_path: /abs/path`) are dropped, so an output changes only when a cell
@@ -126,8 +127,9 @@ def main(mode, out, ref, inputs):
             want = ports.get(name)
             if want is None:
                 sys.exit(f'{path}: {name} is not in {ref}')
-            if sorted(have) != sorted(want):
-                sys.exit(f'{path}: ports {have} differ from {ref}: {want}')
+            if have != want:
+                sys.exit(f'{path}: ports {have} are not in the order of {ref}: {want}'
+                         f' (run scripts/port_order.py {name})')
             text = text.replace(line, f'.subckt {name} ' + ' '.join(want), 1)
         parts.append(text)
     with open(out, 'w') as f:

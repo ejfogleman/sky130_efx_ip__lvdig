@@ -189,19 +189,19 @@ transform 1 0 72 0 1 324
 box -72 -36 288 252
 << labels >>
 flabel locali 36 216 108 288 0 FreeSans 288 0 0 0 B
-port 1 nsew signal input
-flabel locali 252 216 324 288 0 FreeSans 288 0 0 0 A
 port 2 nsew signal input
+flabel locali 252 216 324 288 0 FreeSans 288 0 0 0 A
+port 1 nsew signal input
 flabel locali 504 216 576 288 0 FreeSans 288 0 0 0 X
 port 3 nsew signal output
 flabel metal1 0 -72 72 0 0 FreeSans 288 0 0 0 VGND
 port 4 nsew ground bidirectional
 flabel metal1 0 576 72 648 0 FreeSans 288 0 0 0 VPWR
-port 5 nsew power bidirectional
+port 7 nsew power bidirectional
 flabel nwell 0 540 36 576 0 FreeSans 288 0 0 0 VPB
 port 6 nsew power bidirectional
 flabel pwell 0 0 36 36 0 FreeSans 288 0 0 0 VNB
-port 7 nsew ground bidirectional
+port 5 nsew ground bidirectional
 << properties >>
 string FIXED_BBOX 0 -36 936 612
 << end >>

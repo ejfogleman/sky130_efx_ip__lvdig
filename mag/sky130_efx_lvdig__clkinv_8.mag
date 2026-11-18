@@ -271,13 +271,13 @@ port 1 nsew signal input
 flabel locali 144 216 216 288 0 FreeSans 288 0 0 0 Y
 port 2 nsew signal output
 flabel metal1 0 576 18 648 0 FreeSans 288 0 0 0 VPWR
-port 3 nsew power bidirectional
+port 6 nsew power bidirectional
 flabel metal1 0 -72 18 0 0 FreeSans 288 0 0 0 VGND
-port 4 nsew ground bidirectional
+port 3 nsew ground bidirectional
 flabel nwell 0 540 36 576 0 FreeSans 288 0 0 0 VPB
 port 5 nsew power bidirectional
 flabel pwell 0 0 36 36 0 FreeSans 288 0 0 0 VNB
-port 6 nsew ground bidirectional
+port 4 nsew ground bidirectional
 << properties >>
 string FIXED_BBOX 0 -36 1440 612
 << end >>

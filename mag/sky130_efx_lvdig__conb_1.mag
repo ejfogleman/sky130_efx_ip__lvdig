@@ -84,17 +84,17 @@ rect 197 -53 216 -19
 rect 0 -108 216 -53
 << labels >>
 flabel locali 72 180 144 252 0 FreeSans 288 0 0 0 LO
-port 1 nsew signal output
-flabel locali 72 324 144 396 0 FreeSans 288 0 0 0 HI
 port 2 nsew signal output
+flabel locali 72 324 144 396 0 FreeSans 288 0 0 0 HI
+port 1 nsew signal output
 flabel metal1 0 -72 72 0 0 FreeSans 288 0 0 0 VGND
 port 3 nsew ground bidirectional
 flabel metal1 0 576 72 648 0 FreeSans 288 0 0 0 VPWR
-port 4 nsew power bidirectional
+port 6 nsew power bidirectional
 flabel nwell 0 540 36 576 0 FreeSans 288 0 0 0 VPB
 port 5 nsew power bidirectional
 flabel pwell 0 0 36 36 0 FreeSans 288 0 0 0 VNB
-port 6 nsew ground bidirectional
+port 4 nsew ground bidirectional
 << properties >>
 string FIXED_BBOX 0 -36 216 612
 << end >>
